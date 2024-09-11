@@ -1,0 +1,63 @@
+﻿Study Code,Run,Experiment,Chemistry,CITE-Seq,Hashing Code,Disease,Status,Cancer Type,UCEIS,Gender,Age,Lag from Immunotherapy (CPI),Duration of Inflammation (UC&CPI_I),Response to treatment,Response to Immunotherapy,Immunotherapy,Other Medication
+BB4652,Slide 4,10X Visium (Spatial Transcriptomics),N/A,N/A,C2,UC,Inflamed,,UCEIS 5/8,M,65,N/A,35,,,,"Vedolizumab, Apixaban, Atorvastatin, Ramipril, Bisoprolol"
+GI 3667 (#1),Slide 4,10X Visium (Spatial Transcriptomics),N/A,N/A,C4,CPI,Inflamed,Melanoma,Mild Inflammation,F ,46,664,11,Resolved spontaneously with immunotherapy cessation,Response (disease stable),Monotherapy,Nil
+GI 4980,Slide 3,10X Visium (Spatial Transcriptomics),N/A,N/A,B13,UC,Inflamed,,UCEIS 5/8 ,F,60,N/A,21,,,,"Steroids, Ciprofloxacin"
+GI 6274,Slide 4,10X Visium (Spatial Transcriptomics),N/A,N/A,C3,CPI,Inflamed,Melanoma,UCEIS 3/8,F,75,20,41,"Non-response to steroids, responded to vedolizumab",Response (26/04/21),Monotherapy,"Steroids, Amitryptypline, Atenolol, Omeprazole, Timodine, Zapain, Furoseimde, Adcal D3"
+GI 6275,Slide 2,10X Visium (Spatial Transcriptomics),N/A,N/A,B6,CPI,Inflamed,Melanoma,UCEIS 4/8,F,74,33,21,"Non-response to steroids, responded to infliximab",Response (11/3/21),Dual therapy,"Steroids, Flecainide, Warfarin, Atorvastatin,Bisoprolol, Alendronic acid"
+GI 6278,Slide 3,10X Visium (Spatial Transcriptomics),N/A,N/A,B11,CPI,Inflamed,Melanoma,,M,30,15,4,Response to single course oral steroids,Non response (22/3/21),Dual therapy,"Steroids, Ramipril, Nystatin."
+GI 6658,Slide 3,10X Visium (Spatial Transcriptomics),N/A,N/A,B12,UC,Inflamed,,UCEIS 5/8,M,55,N/A,124,,,,Nil
+GI 6925,Slide 3,10X Visium (Spatial Transcriptomics),N/A,N/A,B10,Healthy,Not inflamed,,,F,66,N/A,0, ,,,"Clopidogrel, Sertraline, Cetirizine, Amlodipine, Atorvastatin, Amitryptyline, Morphine, Adcal D3"
+GI 6967,Slide 2 x 2 sections,10X Visium (Spatial Transcriptomics),N/A,N/A,B8 & B9,UC,Inflamed,,,F,30,N/A,120,,,,"Azathioprine, Mesalazine, Ferric Carboxymaltose"
+GI Cor15 (GI 6264),Slide 1,10X Visium (Spatial Transcriptomics),N/A,N/A,B4,UC,Inflamed,,UCEIS 3/8,F,53,N/A,33,,,,Pentasa.
+GI Cor17 (GI 6266),Slide 1,10X Visium (Spatial Transcriptomics),N/A,N/A,B5,UC,Inflamed,,UCEIS 3/8,M,33,N/A,21,,,,Seretide.
+PRISE 14,Slide 1,10X Visium (Spatial Transcriptomics),N/A,N/A,B2,CPI,Inflamed,Melanoma,UCEIS 6/8,M,72,64,40,"Non-response to steroids and infliximab, responded to vedolizumab",Response (6/8/20),Monotherapy,"Steroids, Omeprazole"
+PRISE 23,Slide 2,10X Visium (Spatial Transcriptomics),N/A,N/A,B7,CPI,Inflamed,Bladder Cancer,UCEIS 2/8,M,74,16,25,Response to single course oral steroids,No comment of response/imaging around time of flexi,Monotherapy,"Lansoprazole, Naproxen, Mometasone, Morphine"
+PRISE 31,Slide 1,10X Visium (Spatial Transcriptomics),N/A,N/A,B3,CPI,Inflamed,Melanoma,Mild Inflammation,M,47,16,13,"Non-response to steroids, responded to infliximab",Response (7/9/20),Dual therapy,"Infliximab, Steroids, Carbimazole "
+TIP 346,Slide 5 x 2 sections,10X Visium (Spatial Transcriptomics),N/A,N/A,A1&A2,Healthy,Not inflamed,,,F,53,N/A,0,,,,Nil
+TIP 517,Slide 4,10X Visium (Spatial Transcriptomics),N/A,N/A,C5,Healthy ,Non inflamed,,,F,41,N/A,0,,,,Nil
+GI 4069 (20),Slide 1,CosMx (High resolution Spatial Transcriptomics),N/A,N/A,,CPI,Inflamed,Melanoma,UCEIS 3/8,M,70,11,9,"Non-response to steroids and infliximab, responded to vedolizumab",Non response (31/5/19),Dual therapy,Steroids
+GI 4449(28),Slide 1,CosMx (High resolution Spatial Transcriptomics),N/A,N/A,,CPI,Inflamed,Lung cancer,UCEIS 0/8,M,61,7,151,"Non-responsive to steroids and infilixmab, responded to FMT (fecal transplant)",Response (20/3/20),Monotherapy,"Infliximab, Vedolizumab, FMT Tofacitinib"
+GI 4738(19),Slide 1,CosMx (High resolution Spatial Transcriptomics),N/A,N/A,,CPI,Inflamed,Lung cancer,UCEIS 4/8,F,67,21,18,Responded to single course of oral steroids,Response (CT 20/1/20),Monotherapy,Loperamide
+GI 4059(15),Slide 2,CosMx (High resolution Spatial Transcriptomics),N/A,N/A,,CPI,Inflamed,Melanoma,UCEIS 5/8,M,70,31,29,"No response to steroids, response to extended course of infliximab",Response (disease stability),Dual therapy,"Steroids, Infliximab"
+PRISE14(34),Slide 2,CosMx (High resolution Spatial Transcriptomics),N/A,N/A,,CPI,Inflamed,Melanoma,UCEIS 6/8,M,74,39,10,"Non-response to steroids and infliximab, responded to vedolizumab",Response (CT 13/9/19),Dual therapy,None
+GI 3700(20),Slide 2,CosMx (High resolution Spatial Transcriptomics),N/A,N/A,,CPI,Inflamed,Melanoma,UCEIS 0/8,M,79,78,308,Responded to prolonged course of oral steroids,Non response (CT 25/1/20),Dual therapy,None
+PRISE13(12),Slide 1,CosMx (High resolution Spatial Transcriptomics),N/A,N/A,,CPI,Not inflamed,Melanoma,,M,76,11,N/A,,Response (disease stable) (17/5/19),Monotherapy,None
+PRISE12(16),Slide 1,CosMx (High resolution Spatial Transcriptomics),N/A,N/A,,CPI,Not inflamed,Melanoma,,M,60,14,N/A,,Response (25/4/19),Dual therapy,None
+PRISE 37(6),Slide 2,"CosMx (High resolution Spatial Transcriptomics), No Data Obtained",N/A,N/A,,CPI,Not inflamed,Melanoma,,F,63,28,N/A,,Non response (CT 11/12/20),Dual therapy,"Steroids, Omeprazole, Sertraline, Tetracosactide"
+PRISE18(14),Slide 2,CosMx (High resolution Spatial Transcriptomics),N/A,N/A,,CPI,Not inflamed,Melanoma,,M,60,15,N/A,,No response assessment as Cycle 1,Dual therapy,Steroids
+GI 4685(29),Slide 2,CosMx (High resolution Spatial Transcriptomics),N/A,N/A,,CPI,Not inflamed,Melanoma,,M,62,71,N/A,,Response (CT Feb 2020),Monotherapy,"Inflixmab, Steroids"
+PRISE3 (13),Slide 1,CosMx (High resolution Spatial Transcriptomics),N/A,N/A,,CPI,Not inflamed ,Melanoma,,M,72,3,N/A,,No comment/imaging available to define response,Dual therapy,None
+GI Cor2 (GI4990),Slide 3,CosMx (High resolution Spatial Transcriptomics),N/A,N/A,,Healthy,Not inflamed,,,F ,36,N/A,N/A,,,,None
+GI Cor3 (GI4991),Slide 3,CosMx (High resolution Spatial Transcriptomics),N/A,N/A,,Healthy,Not inflamed,,,M,35,N/A,N/A,,,,None
+GI Cor12 (GI6261),Slide 3,CosMx (High resolution Spatial Transcriptomics),N/A,N/A,,Healthy,Not inflamed,,,F ,51,N/A,N/A,,,,"Omeprazole, Asprin, Candesartan, Bisoprolol, Atorvastatin, Sertraline"
+BB 4652,Slide 3,CosMx (High resolution Spatial Transcriptomics),N/A,N/A,,UC,Inflamed,,UCEiS 5/8,M,65,N/A,35 days,,,,Vedolizumab
+TIP OX 913,Slide 3,CosMx (High resolution Spatial Transcriptomics),N/A,N/A,,UC,Inflamed,,UCEiS 5/8,M,47,N/A,91days,,,,"Steroids, Mesalazine, Pentasa"
+TIP 877,Slide 3,CosMx (High resolution Spatial Transcriptomics),N/A,N/A,,UC,Inflamed,,UCEIS 4/8,M,70,N/A,Many Years,,,,Steroids
+GI 3031 (SA),CD45(2),Biopsy CD45+ FACS Sort,3' 10X scRNA,No,N/A,CPI,Inflamed,Melanoma,UCEIS 2/8,M,72,11,25,"Non-response to steroids, responded to infliximab",No,Monotherapy,"Steroids, Finasteride, Tamsulosin, Morphine, Paracetamol."
+GI 3126 (SC),CD45(2),Biopsy CD45+ FACS Sort,3' 10X scRNA,No,N/A,CPI,Inflamed,Renal Cancer,UCEIS 2/8,M,75,24,40,"Responded to oral steroids, but required 3 courses",Response,Monotherapy,"Warfarin, Verapamil, Levothyroxine"
+GI 3060 (SB),CD45(2),Biopsy CD45+ FACS Sort,3' 10X scRNA,No,N/A,CPI,Not inflamed,Melanoma,,M,72,2,0,,Response,Monotherapy,Nil
+GI 3236 (SD),CD45(2),Biopsy CD45+ FACS Sort,3' 10X scRNA,No,N/A,CPI,Not Inflamed,Renal Cancer,,M,61,43,0,,Response (CT 7/9/2018 - stable appearances),Monotherapy,Steroids
+GI 3369 (GI 3726),CD45(1),Biopsy CD45+ FACS Sort,3' 10X scRNA,No,N/A,Healthy,Not inflamed,,,M,23,,0,,,,Nil
+GI 3409,CD45(1),Biopsy CD45+ FACS Sort,3' 10X scRNA,No,N/A,Healthy,Not inflamed,,,F,48,,0,,,,Nil
+GI 3410,CD45(1),Biopsy CD45+ FACS Sort,3' 10X scRNA,No,N/A,Healthy,Not inflamed,,,F,58,,0,,,,"Amitriptyline, Bendroflumethiazide, Bisoprolol, Simvastatin,Omeprazole"
+IBD 2218,CD45(1),Biopsy CD45+ FACS Sort,3' 10X scRNA,No,N/A,UC,Inflamed and Non inflamed,,UCEIS 5/8,M,64,,40,,,,"Pentasa, Mercaptopurine, Cetrizine, Sertraline, Steroids"
+IBD 2368,CD45(1),Biopsy CD45+ FACS Sort,3' 10X scRNA,No,N/A,UC,Inflamed and Non inflamed,,UCEIS 4/8,M,46,,Unclear,,,,"Omeprazole, Olsalazine, Mirtazapine, Sertraline, Salofalk Suppositories"
+IBD 3552,CD45(1),Biopsy CD45+ FACS Sort,3' 10X scRNA,No,N/A,UC,Inflamed and Non inflamed,,UCEIS 5/8,F,31,,27,,,,Salofalk Laxido Rigevidon
+IBD 3736,CD45(1),Biopsy CD45+ FACS Sort,3' 10X scRNA,No,N/A,UC,Inflamed and Non inflamed,,UCEIS 5/8,M,67,,25,,,,"Pentasa, Steroids, Ventolin Laxido Amoxicillin"
+GI 6275,CD3 - Run 1&3,CD3 Sort from Biopsy and Blood,5' 10X scRNA,Yes,HTO_2,CPI,Inflamed,Melanoma,UCEIS 4/8,F,74,33,21,"Non-response to steroids, responded to infliximab",Response (11/3/21),Dual therapy,"Steroids, Flecainide, Warfarin, Atorvastatin,Bisoprolol, Alendronic acid"
+PRISE 14,CD3 - Run 2&3,CD3 Sort from Biopsy and Blood,5' 10X scRNA,Yes,HTO_3,CPI,Inflamed,Melanoma,UCEIS 6/8,M,72,64,40,"Non-response to steroids and infliximab, responded to vedolizumab",Response (6/8/20),Monotherapy,"Steroids, Omeprazole"
+GI 6274,CD3 - Run 1&3,CD3 Sort from Biopsy and Blood,5' 10X scRNA,Yes,HTO_1,CPI,Inflamed,Melanoma,UCEIS 3/8,F,75,20,41,"Non-response to steroids, responded to vedolizumab",No comment of response on 23/2/21,Monotherapy,"Amitryptyline, Atenlol, Zapain, Furosemide, Omeprazole. "
+GI 6286,CD3 - Run 2&3,CD3 Sort from Biopsy and Blood,5' 10X scRNA,Yes,HTO_5,Healthy,Non inflamed,,,M,58,,0,,,,"Epilim, Clonazepam"
+TIP 376,CD3 - Run 4&5,CD3 Sort from Biopsy and Blood,5' 10X scRNA,Yes,HTO_1,Healthy,Non inflamed,,,F,65,,0,,,,Nil
+TIP 489,CD3 - Run 4&5,CD3 Sort from Biopsy and Blood,5' 10X scRNA,Yes,HTO_3,Healthy,Non Inflamed,,,M,71,,0,,,,"Salbutamol, Metformin, Atorvastatin,Gliclazide, Apixaban,Alogliptin  "
+GI 4980,CD3 - Run 1&3,CD3 Sort from Biopsy and Blood,5' 10X scRNA,Yes,HTO_3,UC,Inflamed,,UCEIS 5/8,F,60,,21,,,,"Steroids, Ciprofloxacin"
+GI 6929,CD3 - Run 2&3,CD3 Sort from Biopsy and Blood,5' 10X scRNA,Yes,HTO_4,UC,Inflamed,,UCEIS 4/8,M,42,,26,,,,"Steroids, Mesalazine"
+IBD1464,CD3 - Run 4&5,CD3 Sort from Biopsy and Blood,5' 10X scRNA,Yes,HTO_2,UC,Inflamed,,UCEIS 5/8,M,58,,168,,,,"Steroids, Mesalazine"
+GI 4051,S58(CD45/Str),Epithelial Enrichment + CD45/Stromal Enrichment,5' 10X scRNA,Yes,HTO_5,CPI,Inflamed,Melanoma,UCEIS 4/8,F,63,71,66,"Non-response to steroids, infliximab and vedolizumab, responded to FMT (fecal transplant)",Response (CT 29/3/19),Dual therapy,"Infliximab, Steroids, Omeprazole, Co-Trimoxazole, Levothyroxine, Dermovate."
+GI 4442,S32(CD45/Str),Epithelial Enrichment + CD45/Stromal Enrichment,5' 10X scRNA,Yes,HTO_4,CPI,Inflamed,Renal Cancer,UCEIS 2/8,M,82,23,11,Responded to single course of oral steroids,Non response (CT 9/9/19),Dual therapy,"Steroids, Dalteparin, Risedronate, Bisoprolo, Paracetamol."
+GI 3662,"S31(Epi), S32(CD45/Str)",Epithelial Enrichment + CD45/Stromal Enrichment,5' 10X scRNA,Yes,HTO_5,CPI,Not Inflamed,Melanoma,,F,29,28,0,,Response (CT Sept 18 - stable),Dual therapy,"Steroids, Ranitidine, Propranolol "
+GI 4449,S58(CD45/Str),Epithelial Enrichment + CD45/Stromal Enrichment,5' 10X scRNA,Yes,HTO_4,CPI,Inflamed,Lung Cancer,UCEIS 5/8,M,61,71,65,"Non-responsive to steroids and infilixmab, responded to FMT (fecal transplant)",Oncology Rx elsewhere,Monotherapy,"Infliximab, Steroids, Omeprazole"
+TIP 332,"S31(Epi), S32(CD45/Str)",Epithelial Enrichment + CD45/Stromal Enrichment,5' 10X scRNA,Yes,HTO_1,Healthy,Not Inflamed,,,F,36,,0,,,,Paracetamol 
+GI 4379,S58(CD45/Str),Epithelial Enrichment + CD45/Stromal Enrichment,5' 10X scRNA,Yes,HTO_3,UC,Inflamed,,UCEIS 3/8,F,66,,Unclear,,,,Ursofalk
+IBD 3778,"S31(Epi), S32(CD45/Str)",Epithelial Enrichment + CD45/Stromal Enrichment,5' 10X scRNA,Yes,HTO_2,UC,Inflamed,,UCEIS 6/8,M,38,,34,,,,"Omeprazole, azathioprine"
+IBD 3778,"S31(Epi), S32(CD45/Str)",Epithelial Enrichment + CD45/Stromal Enrichment,5' 10X scRNA,Yes,HTO_3,UC,Not Inflamed,,,M,38,,0,,,,"Omeprazole, azathioprine"
