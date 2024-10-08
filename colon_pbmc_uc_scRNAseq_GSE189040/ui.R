@@ -14,6 +14,36 @@ sc2def  = readRDS("sc2def.rds")
 
 
 
+sc3conf = readRDS("sc3conf.rds")
+sc3def  = readRDS("sc3def.rds")
+
+
+
+sc4conf = readRDS("sc4conf.rds")
+sc4def  = readRDS("sc4def.rds")
+
+
+
+sc5conf = readRDS("sc5conf.rds")
+sc5def  = readRDS("sc5def.rds")
+
+
+
+sc6conf = readRDS("sc6conf.rds")
+sc6def  = readRDS("sc6def.rds")
+
+
+
+sc7conf = readRDS("sc7conf.rds")
+sc7def  = readRDS("sc7def.rds")
+
+
+
+sc8conf = readRDS("sc8conf.rds")
+sc8def  = readRDS("sc8def.rds")
+
+
+
 ### Start server code 
 shinyUI(fluidPage( 
 ### HTML formatting of error messages 
@@ -26,7 +56,7 @@ list(tags$style(HTML(".navbar-default .navbar-nav { font-weight: bold; font-size
 titlePanel("Ulcerative and Immune Checkpoint Therapy Colitis scRNAseq"),  
 navbarPage( 
   NULL,  
- navbarMenu("Colon",### Tab1.a1: cellInfo vs geneExpr on dimRed 
+ navbarMenu("PBMC RNA",### Tab1.a1: cellInfo vs geneExpr on dimRed 
   tabPanel( 
     HTML("CellInfo vs GeneExpr"), 
     h4("Cell information vs gene expression on reduced dimensions"), 
@@ -746,7 +776,7 @@ tabPanel(
   )      # End of tab (2 space) 
    ), 
 
-navbarMenu("PBMC",### Tab1.a1: cellInfo vs geneExpr on dimRed 
+navbarMenu("PBMC Protein",### Tab1.a1: cellInfo vs geneExpr on dimRed 
   tabPanel( 
     HTML("CellInfo vs GeneExpr"), 
     h4("Cell information vs gene expression on reduced dimensions"), 
@@ -1460,6 +1490,4326 @@ tabPanel(
                               min = 4, max = 20, value = 10, step = 0.5)), 
              div(style="display:inline-block", 
                  numericInput("sc2d1oup.w", "PDF / PNG width:", width = "138px", 
+                              min = 4, max = 20, value = 10, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  )      # End of tab (2 space) 
+   ), 
+
+navbarMenu("Colon RNA",### Tab1.a1: cellInfo vs geneExpr on dimRed 
+  tabPanel( 
+    HTML("CellInfo vs GeneExpr"), 
+    h4("Cell information vs gene expression on reduced dimensions"), 
+    "In this tab, users can visualise both cell information and gene ",  
+    "expression side-by-side on low-dimensional representions.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, h4("Dimension Reduction"), 
+        fluidRow( 
+          column( 
+            12, selectInput("sc3a1drX", "X-axis:", choices = sc3conf[dimred == TRUE]$UI, 
+                           selected = sc3def$dimred[1]), 
+            selectInput("sc3a1drY", "Y-axis:", choices = sc3conf[dimred == TRUE]$UI, 
+                        selected = sc3def$dimred[2])) 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        3, actionButton("sc3a1togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc3a1togL % 2 == 1", 
+          selectInput("sc3a1sub1", "Cell information to subset:", 
+                      choices = sc3conf[grp == TRUE]$UI, 
+                      selected = sc3def$grp1), 
+          uiOutput("sc3a1sub1.ui"), 
+          actionButton("sc3a1sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc3a1sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, actionButton("sc3a1tog0", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc3a1tog0 % 2 == 1", 
+          fluidRow( 
+            column( 
+              6, sliderInput("sc3a1siz", "Point size:", 
+                             min = 0, max = 4, value = 1.25, step = 0.25), 
+              radioButtons("sc3a1psz", "Plot size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE), 
+              radioButtons("sc3a1fsz", "Font size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE) 
+            ), 
+            column( 
+              6, radioButtons("sc3a1asp", "Aspect ratio:", 
+                              choices = c("Square", "Fixed", "Free"), 
+                              selected = "Square", inline = TRUE), 
+              checkboxInput("sc3a1txt", "Show axis text", value = FALSE) 
+            ) 
+          ) 
+        ) 
+      )  # End of column (6 space) 
+    ),   # End of fluidRow (4 space) 
+    fluidRow( 
+      column( 
+        6, style="border-right: 2px solid black", h4("Cell information"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc3a1inp1", "Cell information:", 
+                           choices = sc3conf$UI, 
+                           selected = sc3def$meta1) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Cell information to colour cells by", 
+                     content = c("Select cell information to colour cells", 
+                                 "- Categorical covariates have a fixed colour palette", 
+                                 paste0("- Continuous covariates are coloured in a ",  
+                                        "Blue-Yellow-Red colour scheme, which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc3a1tog1", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc3a1tog1 % 2 == 1", 
+              radioButtons("sc3a1col1", "Colour (Continuous data):", 
+                           choices = c("White-Red","Blue-Yellow-Red","Yellow-Green-Purple"), 
+                           selected = "Blue-Yellow-Red"), 
+              radioButtons("sc3a1ord1", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Original", inline = TRUE), 
+              checkboxInput("sc3a1lab1", "Show cell info labels", value = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc3a1oup1.ui"))), 
+        downloadButton("sc3a1oup1.pdf", "Download PDF"), 
+        downloadButton("sc3a1oup1.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc3a1oup1.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc3a1oup1.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)), br(), 
+        actionButton("sc3a1tog9", "Toggle to show cell numbers / statistics"), 
+        conditionalPanel( 
+          condition = "input.sc3a1tog9 % 2 == 1", 
+          h4("Cell numbers / statistics"), 
+          radioButtons("sc3a1splt", "Split continuous cell info into:", 
+                       choices = c("Quartile", "Decile"), 
+                       selected = "Decile", inline = TRUE), 
+          dataTableOutput("sc3a1.dt") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, h4("Gene expression"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc3a1inp2", "Gene name:", choices=NULL) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Gene expression to colour cells by", 
+                     content = c("Select gene to colour cells by gene expression", 
+                                 paste0("- Gene expression are coloured in a ", 
+                                        "White-Red colour scheme which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc3a1tog2", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc3a1tog2 % 2 == 1", 
+              radioButtons("sc3a1col2", "Colour:", 
+                           choices = c("White-Red","Blue-Yellow-Red","Yellow-Green-Purple"), 
+                           selected = "White-Red"), 
+              radioButtons("sc3a1ord2", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Max-1st", inline = TRUE) 
+            ) 
+          ) 
+        ) , 
+        fluidRow(column(12, uiOutput("sc3a1oup2.ui"))), 
+        downloadButton("sc3a1oup2.pdf", "Download PDF"), 
+        downloadButton("sc3a1oup2.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc3a1oup2.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc3a1oup2.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  ),     # End of tab (2 space) 
+ 
+  ### Tab1.a2: cellInfo vs cellInfo on dimRed 
+  tabPanel( 
+    HTML("CellInfo vs CellInfo"), 
+    h4("Cell information vs cell information on dimension reduction"), 
+    "In this tab, users can visualise two cell informations side-by-side ", 
+    "on low-dimensional representions.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, h4("Dimension Reduction"), 
+        fluidRow( 
+          column( 
+            12, selectInput("sc3a2drX", "X-axis:", choices = sc3conf[dimred == TRUE]$UI, 
+                           selected = sc3def$dimred[1]), 
+            selectInput("sc3a2drY", "Y-axis:", choices = sc3conf[dimred == TRUE]$UI, 
+                        selected = sc3def$dimred[2])) 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        3, actionButton("sc3a2togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc3a2togL % 2 == 1", 
+          selectInput("sc3a2sub1", "Cell information to subset:", 
+                      choices = sc3conf[grp == TRUE]$UI, 
+                      selected = sc3def$grp1), 
+          uiOutput("sc3a2sub1.ui"), 
+          actionButton("sc3a2sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc3a2sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, actionButton("sc3a2tog0", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc3a2tog0 % 2 == 1", 
+          fluidRow( 
+            column( 
+              6, sliderInput("sc3a2siz", "Point size:", 
+                             min = 0, max = 4, value = 1.25, step = 0.25), 
+              radioButtons("sc3a2psz", "Plot size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE), 
+              radioButtons("sc3a2fsz", "Font size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE) 
+            ), 
+            column( 
+              6, radioButtons("sc3a2asp", "Aspect ratio:", 
+                              choices = c("Square", "Fixed", "Free"), 
+                              selected = "Square", inline = TRUE), 
+              checkboxInput("sc3a2txt", "Show axis text", value = FALSE) 
+            ) 
+          ) 
+        ) 
+      )  # End of column (6 space) 
+    ),   # End of fluidRow (4 space) 
+    fluidRow( 
+      column( 
+        6, style="border-right: 2px solid black", h4("Cell information 1"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc3a2inp1", "Cell information:", 
+                           choices = sc3conf$UI, 
+                           selected = sc3def$meta1) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Cell information to colour cells by", 
+                     content = c("Select cell information to colour cells", 
+                                 "- Categorical covariates have a fixed colour palette", 
+                                 paste0("- Continuous covariates are coloured in a ",  
+                                        "Blue-Yellow-Red colour scheme, which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc3a2tog1", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc3a2tog1 % 2 == 1", 
+              radioButtons("sc3a2col1", "Colour (Continuous data):", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "Blue-Yellow-Red"), 
+              radioButtons("sc3a2ord1", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Original", inline = TRUE), 
+              checkboxInput("sc3a2lab1", "Show cell info labels", value = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc3a2oup1.ui"))), 
+        downloadButton("sc3a2oup1.pdf", "Download PDF"), 
+        downloadButton("sc3a2oup1.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc3a2oup1.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc3a2oup1.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      ), # End of column (6 space) 
+      column( 
+        6, h4("Cell information 2"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc3a2inp2", "Cell information:", 
+                           choices = sc3conf$UI, 
+                           selected = sc3def$meta2) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Cell information to colour cells by", 
+                     content = c("Select cell information to colour cells", 
+                                 "- Categorical covariates have a fixed colour palette", 
+                                 paste0("- Continuous covariates are coloured in a ",  
+                                        "Blue-Yellow-Red colour scheme, which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc3a2tog2", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc3a2tog2 % 2 == 1", 
+              radioButtons("sc3a2col2", "Colour (Continuous data):", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "Blue-Yellow-Red"), 
+              radioButtons("sc3a2ord2", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Original", inline = TRUE), 
+              checkboxInput("sc3a2lab2", "Show cell info labels", value = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc3a2oup2.ui"))), 
+        downloadButton("sc3a2oup2.pdf", "Download PDF"), 
+        downloadButton("sc3a2oup2.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc3a2oup2.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc3a2oup2.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  ),     # End of tab (2 space) 
+   
+  ### Tab1.a3: geneExpr vs geneExpr on dimRed 
+  tabPanel( 
+    HTML("GeneExpr vs GeneExpr"), 
+    h4("Gene expression vs gene expression on dimension reduction"), 
+    "In this tab, users can visualise two gene expressions side-by-side ", 
+    "on low-dimensional representions.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, h4("Dimension Reduction"), 
+        fluidRow( 
+          column( 
+            12, selectInput("sc3a3drX", "X-axis:", choices = sc3conf[dimred == TRUE]$UI, 
+                           selected = sc3def$dimred[1]), 
+            selectInput("sc3a3drY", "Y-axis:", choices = sc3conf[dimred == TRUE]$UI, 
+                        selected = sc3def$dimred[2])) 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        3, actionButton("sc3a3togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc3a3togL % 2 == 1", 
+          selectInput("sc3a3sub1", "Cell information to subset:", 
+                      choices = sc3conf[grp == TRUE]$UI, 
+                      selected = sc3def$grp1), 
+          uiOutput("sc3a3sub1.ui"), 
+          actionButton("sc3a3sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc3a3sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, actionButton("sc3a3tog0", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc3a3tog0 % 2 == 1", 
+          fluidRow( 
+            column( 
+              6, sliderInput("sc3a3siz", "Point size:", 
+                             min = 0, max = 4, value = 1.25, step = 0.25), 
+              radioButtons("sc3a3psz", "Plot size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE), 
+              radioButtons("sc3a3fsz", "Font size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE) 
+            ), 
+            column( 
+              6, radioButtons("sc3a3asp", "Aspect ratio:", 
+                              choices = c("Square", "Fixed", "Free"), 
+                              selected = "Square", inline = TRUE), 
+              checkboxInput("sc3a3txt", "Show axis text", value = FALSE) 
+            ) 
+          ) 
+        ) 
+      )  # End of column (6 space) 
+    ),   # End of fluidRow (4 space) 
+    fluidRow( 
+      column( 
+        6, style="border-right: 2px solid black", h4("Gene expression 1"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc3a3inp1", "Gene name:", choices=NULL) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Gene expression to colour cells by", 
+                     content = c("Select gene to colour cells by gene expression", 
+                                 paste0("- Gene expression are coloured in a ", 
+                                        "White-Red colour scheme which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc3a3tog1", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc3a3tog1 % 2 == 1", 
+              radioButtons("sc3a3col1", "Colour:", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "White-Red"), 
+              radioButtons("sc3a3ord1", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Max-1st", inline = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc3a3oup1.ui"))), 
+        downloadButton("sc3a3oup1.pdf", "Download PDF"), 
+        downloadButton("sc3a3oup1.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc3a3oup1.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc3a3oup1.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      ), # End of column (6 space) 
+      column( 
+        6, h4("Gene expression 2"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc3a3inp2", "Gene name:", choices=NULL) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Gene expression to colour cells by", 
+                     content = c("Select gene to colour cells by gene expression", 
+                                 paste0("- Gene expression are coloured in a ", 
+                                        "White-Red colour scheme which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc3a3tog2", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc3a3tog2 % 2 == 1", 
+              radioButtons("sc3a3col2", "Colour:", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "White-Red"), 
+              radioButtons("sc3a3ord2", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Max-1st", inline = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc3a3oup2.ui"))), 
+        downloadButton("sc3a3oup2.pdf", "Download PDF"), 
+        downloadButton("sc3a3oup2.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc3a3oup2.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc3a3oup2.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  ),     # End of tab (2 space) 
+ 
+ ### Tab1.b2: Gene coexpression plot 
+ tabPanel( 
+   HTML("Gene coexpression"), 
+   h4("Coexpression of two genes on reduced dimensions"), 
+   "In this tab, users can visualise the coexpression of two genes ", 
+   "on low-dimensional representions.", 
+   br(),br(), 
+   fluidRow( 
+     column( 
+       3, h4("Dimension Reduction"), 
+       fluidRow( 
+         column( 
+           12, selectInput("sc3b2drX", "X-axis:", choices = sc3conf[dimred == TRUE]$UI, 
+                           selected = sc3def$dimred[1]), 
+           selectInput("sc3b2drY", "Y-axis:", choices = sc3conf[dimred == TRUE]$UI, 
+                       selected = sc3def$dimred[2])) 
+       ) 
+     ), # End of column (6 space) 
+     column( 
+       3, actionButton("sc3b2togL", "Toggle to subset cells"), 
+       conditionalPanel( 
+         condition = "input.sc3b2togL % 2 == 1", 
+         selectInput("sc3b2sub1", "Cell information to subset:", 
+                     choices = sc3conf[grp == TRUE]$UI, 
+                    selected = sc3def$grp1), 
+         uiOutput("sc3b2sub1.ui"), 
+         actionButton("sc3b2sub1all", "Select all groups", class = "btn btn-primary"), 
+         actionButton("sc3b2sub1non", "Deselect all groups", class = "btn btn-primary") 
+       ) 
+     ), # End of column (6 space) 
+     column( 
+       6, actionButton("sc3b2tog0", "Toggle graphics controls"), 
+       conditionalPanel( 
+         condition = "input.sc3b2tog0 % 2 == 1", 
+         fluidRow( 
+           column( 
+             6, sliderInput("sc3b2siz", "Point size:", 
+                            min = 0, max = 4, value = 1.25, step = 0.25), 
+             radioButtons("sc3b2psz", "Plot size:", 
+                          choices = c("Small", "Medium", "Large"), 
+                          selected = "Medium", inline = TRUE), 
+             radioButtons("sc3b2fsz", "Font size:", 
+                          choices = c("Small", "Medium", "Large"), 
+                          selected = "Medium", inline = TRUE) 
+           ), 
+           column( 
+             6, radioButtons("sc3b2asp", "Aspect ratio:", 
+                             choices = c("Square", "Fixed", "Free"), 
+                             selected = "Square", inline = TRUE), 
+             checkboxInput("sc3b2txt", "Show axis text", value = FALSE) 
+           ) 
+         ) 
+       ) 
+     )  # End of column (6 space) 
+   ),   # End of fluidRow (4 space) 
+   fluidRow( 
+     column( 
+       3, style="border-right: 2px solid black", h4("Gene Expression"), 
+       selectInput("sc3b2inp1", "Gene 1:", choices=NULL) %>%  
+         helper(type = "inline", size = "m", fade = TRUE, 
+               title = "Gene expression to colour cells by", 
+               content = c("Select gene to colour cells by gene expression", 
+                          paste0("- Gene expression are coloured in a ", 
+                                 "White-Red colour scheme which can be ", 
+                                 "changed in the plot controls"))), 
+       selectInput("sc3b2inp2", "Gene 2:", choices=NULL) %>% 
+         helper(type = "inline", size = "m", fade = TRUE, 
+                title = "Gene expression to colour cells by", 
+                content = c("Select gene to colour cells by gene expression", 
+                            paste0("- Gene expression are coloured in a ", 
+                                   "White-Blue colour scheme which can be ", 
+                                   "changed in the plot controls"))), 
+       actionButton("sc3b2tog1", "Toggle plot controls"), 
+       conditionalPanel( 
+         condition = "input.sc3b2tog1 % 2 == 1", 
+         radioButtons("sc3b2col1", "Colour:", 
+                      choices = c("Red (Gene1); Blue (Gene2)", 
+                                  "Orange (Gene1); Blue (Gene2)", 
+                                  "Red (Gene1); Green (Gene2)", 
+                                  "Green (Gene1); Blue (Gene2)"), 
+                      selected = "Red (Gene1); Blue (Gene2)"), 
+         radioButtons("sc3b2ord1", "Plot order:", 
+                      choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                      selected = "Max-1st", inline = TRUE) 
+       ) 
+     ), # End of column (6 space) 
+     column( 
+       6, style="border-right: 2px solid black", 
+       uiOutput("sc3b2oup1.ui"), 
+       downloadButton("sc3b2oup1.pdf", "Download PDF"), 
+       downloadButton("sc3b2oup1.png", "Download PNG"), br(), 
+       div(style="display:inline-block", 
+           numericInput("sc3b2oup1.h", "PDF / PNG height:", width = "138px", 
+                        min = 4, max = 20, value = 8, step = 0.5)), 
+       div(style="display:inline-block", 
+           numericInput("sc3b2oup1.w", "PDF / PNG width:", width = "138px", 
+                        min = 4, max = 20, value = 10, step = 0.5)) 
+     ), # End of column (6 space) 
+     column( 
+       3, uiOutput("sc3b2oup2.ui"), 
+       downloadButton("sc3b2oup2.pdf", "Download PDF"), 
+       downloadButton("sc3b2oup2.png", "Download PNG"), 
+       br(), h4("Cell numbers"), 
+       dataTableOutput("sc3b2.dt") 
+     )  # End of column (6 space) 
+   )    # End of fluidRow (4 space) 
+ ),     # End of tab (2 space) 
+ 
+ ### Tab1.c1: violinplot / boxplot 
+ tabPanel( 
+    HTML("Violinplot / Boxplot"),  
+   h4("Cell information / gene expression violin plot / box plot"), 
+   "In this tab, users can visualise the gene expression or continuous cell information ",  
+   "(e.g. Number of UMIs / module score) across groups of cells (e.g. libary / clusters).", 
+   br(),br(), 
+   fluidRow( 
+     column( 
+       3, style="border-right: 2px solid black", 
+       selectInput("sc3c1inp1", "Cell information (X-axis):", 
+                   choices = sc3conf[grp == TRUE]$UI, 
+                   selected = sc3def$grp1) %>%  
+         helper(type = "inline", size = "m", fade = TRUE, 
+                title = "Cell information to group cells by",  
+                content = c("Select categorical cell information to group cells by",  
+                            "- Single cells are grouped by this categorical covariate",  
+                            "- Plotted as the X-axis of the violin plot / box plot")),  
+       selectInput("sc3c1inp2", "Cell Info / Gene name (Y-axis):", choices=NULL) %>%  
+         helper(type = "inline", size = "m", fade = TRUE, 
+                title = "Cell Info / Gene to plot", 
+                content = c("Select cell info / gene to plot on Y-axis", 
+                            "- Can be continuous cell information (e.g. nUMIs / scores)", 
+                            "- Can also be gene expression")), 
+       radioButtons("sc3c1typ", "Plot type:", 
+                    choices = c("violin", "boxplot"), 
+                    selected = "violin", inline = TRUE), 
+       checkboxInput("sc3c1pts", "Show data points", value = FALSE), 
+       actionButton("sc3c1togL", "Toggle to subset cells"), 
+       conditionalPanel( 
+         condition = "input.sc3c1togL % 2 == 1", 
+         selectInput("sc3c1sub1", "Cell information to subset:", 
+                     choices = sc3conf[grp == TRUE]$UI, 
+                     selected = sc3def$grp1), 
+         uiOutput("sc3c1sub1.ui"), 
+         actionButton("sc3c1sub1all", "Select all groups", class = "btn btn-primary"), 
+         actionButton("sc3c1sub1non", "Deselect all groups", class = "btn btn-primary") 
+       ), br(), br(), 
+       actionButton("sc3c1tog", "Toggle graphics controls"), 
+       conditionalPanel( 
+         condition = "input.sc3c1tog % 2 == 1", 
+         sliderInput("sc3c1siz", "Data point size:",  
+                     min = 0, max = 4, value = 1.25, step = 0.25),  
+         radioButtons("sc3c1psz", "Plot size:", 
+                      choices = c("Small", "Medium", "Large"), 
+                      selected = "Medium", inline = TRUE), 
+         radioButtons("sc3c1fsz", "Font size:", 
+                      choices = c("Small", "Medium", "Large"), 
+                      selected = "Medium", inline = TRUE)) 
+     ), # End of column (6 space) 
+     column(9, uiOutput("sc3c1oup.ui"),  
+            downloadButton("sc3c1oup.pdf", "Download PDF"),  
+            downloadButton("sc3c1oup.png", "Download PNG"), br(), 
+            div(style="display:inline-block", 
+                numericInput("sc3c1oup.h", "PDF / PNG height:", width = "138px", 
+                             min = 4, max = 20, value = 8, step = 0.5)), 
+            div(style="display:inline-block", 
+                numericInput("sc3c1oup.w", "PDF / PNG width:", width = "138px", 
+                             min = 4, max = 20, value = 10, step = 0.5)) 
+     )  # End of column (6 space) 
+   )    # End of fluidRow (4 space) 
+ ),     # End of tab (2 space) 
+ 
+### Tab1.c2: Proportion plot 
+tabPanel( 
+  HTML("Proportion plot"), 
+  h4("Proportion / cell numbers across different cell information"), 
+  "In this tab, users can visualise the composition of single cells based on one discrete ", 
+  "cell information across another discrete cell information. ",  
+  "Usage examples include the library or cellcycle composition across clusters.", 
+  br(),br(), 
+  fluidRow( 
+    column( 
+      3, style="border-right: 2px solid black", 
+      selectInput("sc3c2inp1", "Cell information to plot (X-axis):", 
+                  choices = sc3conf[grp == TRUE]$UI, 
+                  selected = sc3def$grp2) %>%  
+        helper(type = "inline", size = "m", fade = TRUE, 
+               title = "Cell information to plot cells by",  
+               content = c("Select categorical cell information to plot cells by", 
+                           "- Plotted as the X-axis of the proportion plot")), 
+      selectInput("sc3c2inp2", "Cell information to group / colour by:", 
+                  choices = sc3conf[grp == TRUE]$UI, 
+                  selected = sc3def$grp1) %>%  
+        helper(type = "inline", size = "m", fade = TRUE, 
+               title = "Cell information to group / colour cells by", 
+               content = c("Select categorical cell information to group / colour cells by", 
+                           "- Proportion / cell numbers are shown in different colours")), 
+      radioButtons("sc3c2typ", "Plot value:", 
+                   choices = c("Proportion", "CellNumbers"), 
+                   selected = "Proportion", inline = TRUE), 
+      checkboxInput("sc3c2flp", "Flip X/Y", value = FALSE), 
+      actionButton("sc3c2togL", "Toggle to subset cells"), 
+      conditionalPanel( 
+        condition = "input.sc3c2togL % 2 == 1", 
+        selectInput("sc3c2sub1", "Cell information to subset:", 
+                    choices = sc3conf[grp == TRUE]$UI, 
+                    selected = sc3def$grp1), 
+        uiOutput("sc3c2sub1.ui"), 
+        actionButton("sc3c2sub1all", "Select all groups", class = "btn btn-primary"), 
+        actionButton("sc3c2sub1non", "Deselect all groups", class = "btn btn-primary") 
+      ), br(), br(), 
+      actionButton("sc3c2tog", "Toggle graphics controls"), 
+      conditionalPanel( 
+        condition = "input.sc3c2tog % 2 == 1", 
+        radioButtons("sc3c2psz", "Plot size:", 
+                     choices = c("Small", "Medium", "Large"), 
+                     selected = "Medium", inline = TRUE), 
+        radioButtons("sc3c2fsz", "Font size:", 
+                     choices = c("Small", "Medium", "Large"), 
+                     selected = "Medium", inline = TRUE)) 
+    ), # End of column (6 space) 
+    column(9, uiOutput("sc3c2oup.ui"),  
+           downloadButton("sc3c2oup.pdf", "Download PDF"),  
+           downloadButton("sc3c2oup.png", "Download PNG"), br(), 
+           div(style="display:inline-block", 
+               numericInput("sc3c2oup.h", "PDF / PNG height:", width = "138px", 
+                            min = 4, max = 20, value = 8, step = 0.5)), 
+           div(style="display:inline-block", 
+               numericInput("sc3c2oup.w", "PDF / PNG width:", width = "138px", 
+                            min = 4, max = 20, value = 10, step = 0.5)) 
+    )  # End of column (6 space) 
+  )    # End of fluidRow (4 space) 
+),     # End of tab (2 space) 
+ 
+  ### Tab1.d1: Multiple gene expr 
+  tabPanel( 
+    HTML("Bubbleplot / Heatmap"), 
+    h4("Gene expression bubbleplot / heatmap"), 
+    "In this tab, users can visualise the gene expression patterns of ", 
+    "multiple genes grouped by categorical cell information (e.g. library / cluster).", br(), 
+    "The normalised expression are averaged, log-transformed and then plotted.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, style="border-right: 2px solid black", 
+        textAreaInput("sc3d1inp", HTML("List of gene names <br /> 
+                                          (Max 50 genes, separated <br /> 
+                                           by , or ; or newline):"), 
+                      height = "200px", 
+                      value = paste0(sc3def$genes, collapse = ", ")) %>% 
+          helper(type = "inline", size = "m", fade = TRUE, 
+                 title = "List of genes to plot on bubbleplot / heatmap", 
+                 content = c("Input genes to plot", 
+                             "- Maximum 50 genes (due to ploting space limitations)", 
+                             "- Genes should be separated by comma, semicolon or newline")), 
+        selectInput("sc3d1grp", "Group by:", 
+                    choices = sc3conf[grp == TRUE]$UI, 
+                    selected = sc3conf[grp == TRUE]$UI[1]) %>% 
+          helper(type = "inline", size = "m", fade = TRUE, 
+                 title = "Cell information to group cells by", 
+                 content = c("Select categorical cell information to group cells by", 
+                             "- Single cells are grouped by this categorical covariate", 
+                             "- Plotted as the X-axis of the bubbleplot / heatmap")), 
+        radioButtons("sc3d1plt", "Plot type:", 
+                     choices = c("Bubbleplot", "Heatmap"), 
+                     selected = "Bubbleplot", inline = TRUE), 
+        checkboxInput("sc3d1scl", "Scale gene expression", value = TRUE), 
+        checkboxInput("sc3d1row", "Cluster rows (genes)", value = TRUE), 
+        checkboxInput("sc3d1col", "Cluster columns (samples)", value = FALSE), 
+        br(), 
+        actionButton("sc3d1togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc3d1togL % 2 == 1", 
+          selectInput("sc3d1sub1", "Cell information to subset:", 
+                      choices = sc3conf[grp == TRUE]$UI, 
+                      selected = sc3def$grp1), 
+          uiOutput("sc3d1sub1.ui"), 
+          actionButton("sc3d1sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc3d1sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ), br(), br(), 
+        actionButton("sc3d1tog", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc3d1tog % 2 == 1", 
+          radioButtons("sc3d1cols", "Colour scheme:", 
+                       choices = c("White-Red", "Blue-Yellow-Red", 
+                                   "Yellow-Green-Purple"), 
+                       selected = "Blue-Yellow-Red"), 
+          radioButtons("sc3d1psz", "Plot size:", 
+                       choices = c("Small", "Medium", "Large"), 
+                       selected = "Medium", inline = TRUE), 
+          radioButtons("sc3d1fsz", "Font size:", 
+                       choices = c("Small", "Medium", "Large"), 
+                       selected = "Medium", inline = TRUE)) 
+      ), # End of column (6 space) 
+      column(9, h4(htmlOutput("sc3d1oupTxt")), 
+             uiOutput("sc3d1oup.ui"), 
+             downloadButton("sc3d1oup.pdf", "Download PDF"), 
+             downloadButton("sc3d1oup.png", "Download PNG"), br(), 
+             div(style="display:inline-block", 
+                 numericInput("sc3d1oup.h", "PDF / PNG height:", width = "138px", 
+                              min = 4, max = 20, value = 10, step = 0.5)), 
+             div(style="display:inline-block", 
+                 numericInput("sc3d1oup.w", "PDF / PNG width:", width = "138px", 
+                              min = 4, max = 20, value = 10, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  )      # End of tab (2 space) 
+   ), 
+
+navbarMenu("Colon Protein",### Tab1.a1: cellInfo vs geneExpr on dimRed 
+  tabPanel( 
+    HTML("CellInfo vs GeneExpr"), 
+    h4("Cell information vs gene expression on reduced dimensions"), 
+    "In this tab, users can visualise both cell information and gene ",  
+    "expression side-by-side on low-dimensional representions.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, h4("Dimension Reduction"), 
+        fluidRow( 
+          column( 
+            12, selectInput("sc4a1drX", "X-axis:", choices = sc4conf[dimred == TRUE]$UI, 
+                           selected = sc4def$dimred[1]), 
+            selectInput("sc4a1drY", "Y-axis:", choices = sc4conf[dimred == TRUE]$UI, 
+                        selected = sc4def$dimred[2])) 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        3, actionButton("sc4a1togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc4a1togL % 2 == 1", 
+          selectInput("sc4a1sub1", "Cell information to subset:", 
+                      choices = sc4conf[grp == TRUE]$UI, 
+                      selected = sc4def$grp1), 
+          uiOutput("sc4a1sub1.ui"), 
+          actionButton("sc4a1sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc4a1sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, actionButton("sc4a1tog0", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc4a1tog0 % 2 == 1", 
+          fluidRow( 
+            column( 
+              6, sliderInput("sc4a1siz", "Point size:", 
+                             min = 0, max = 4, value = 1.25, step = 0.25), 
+              radioButtons("sc4a1psz", "Plot size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE), 
+              radioButtons("sc4a1fsz", "Font size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE) 
+            ), 
+            column( 
+              6, radioButtons("sc4a1asp", "Aspect ratio:", 
+                              choices = c("Square", "Fixed", "Free"), 
+                              selected = "Square", inline = TRUE), 
+              checkboxInput("sc4a1txt", "Show axis text", value = FALSE) 
+            ) 
+          ) 
+        ) 
+      )  # End of column (6 space) 
+    ),   # End of fluidRow (4 space) 
+    fluidRow( 
+      column( 
+        6, style="border-right: 2px solid black", h4("Cell information"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc4a1inp1", "Cell information:", 
+                           choices = sc4conf$UI, 
+                           selected = sc4def$meta1) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Cell information to colour cells by", 
+                     content = c("Select cell information to colour cells", 
+                                 "- Categorical covariates have a fixed colour palette", 
+                                 paste0("- Continuous covariates are coloured in a ",  
+                                        "Blue-Yellow-Red colour scheme, which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc4a1tog1", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc4a1tog1 % 2 == 1", 
+              radioButtons("sc4a1col1", "Colour (Continuous data):", 
+                           choices = c("White-Red","Blue-Yellow-Red","Yellow-Green-Purple"), 
+                           selected = "Blue-Yellow-Red"), 
+              radioButtons("sc4a1ord1", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Original", inline = TRUE), 
+              checkboxInput("sc4a1lab1", "Show cell info labels", value = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc4a1oup1.ui"))), 
+        downloadButton("sc4a1oup1.pdf", "Download PDF"), 
+        downloadButton("sc4a1oup1.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc4a1oup1.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc4a1oup1.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)), br(), 
+        actionButton("sc4a1tog9", "Toggle to show cell numbers / statistics"), 
+        conditionalPanel( 
+          condition = "input.sc4a1tog9 % 2 == 1", 
+          h4("Cell numbers / statistics"), 
+          radioButtons("sc4a1splt", "Split continuous cell info into:", 
+                       choices = c("Quartile", "Decile"), 
+                       selected = "Decile", inline = TRUE), 
+          dataTableOutput("sc4a1.dt") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, h4("Gene expression"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc4a1inp2", "Gene name:", choices=NULL) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Gene expression to colour cells by", 
+                     content = c("Select gene to colour cells by gene expression", 
+                                 paste0("- Gene expression are coloured in a ", 
+                                        "White-Red colour scheme which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc4a1tog2", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc4a1tog2 % 2 == 1", 
+              radioButtons("sc4a1col2", "Colour:", 
+                           choices = c("White-Red","Blue-Yellow-Red","Yellow-Green-Purple"), 
+                           selected = "White-Red"), 
+              radioButtons("sc4a1ord2", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Max-1st", inline = TRUE) 
+            ) 
+          ) 
+        ) , 
+        fluidRow(column(12, uiOutput("sc4a1oup2.ui"))), 
+        downloadButton("sc4a1oup2.pdf", "Download PDF"), 
+        downloadButton("sc4a1oup2.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc4a1oup2.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc4a1oup2.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  ),     # End of tab (2 space) 
+ 
+  ### Tab1.a2: cellInfo vs cellInfo on dimRed 
+  tabPanel( 
+    HTML("CellInfo vs CellInfo"), 
+    h4("Cell information vs cell information on dimension reduction"), 
+    "In this tab, users can visualise two cell informations side-by-side ", 
+    "on low-dimensional representions.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, h4("Dimension Reduction"), 
+        fluidRow( 
+          column( 
+            12, selectInput("sc4a2drX", "X-axis:", choices = sc4conf[dimred == TRUE]$UI, 
+                           selected = sc4def$dimred[1]), 
+            selectInput("sc4a2drY", "Y-axis:", choices = sc4conf[dimred == TRUE]$UI, 
+                        selected = sc4def$dimred[2])) 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        3, actionButton("sc4a2togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc4a2togL % 2 == 1", 
+          selectInput("sc4a2sub1", "Cell information to subset:", 
+                      choices = sc4conf[grp == TRUE]$UI, 
+                      selected = sc4def$grp1), 
+          uiOutput("sc4a2sub1.ui"), 
+          actionButton("sc4a2sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc4a2sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, actionButton("sc4a2tog0", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc4a2tog0 % 2 == 1", 
+          fluidRow( 
+            column( 
+              6, sliderInput("sc4a2siz", "Point size:", 
+                             min = 0, max = 4, value = 1.25, step = 0.25), 
+              radioButtons("sc4a2psz", "Plot size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE), 
+              radioButtons("sc4a2fsz", "Font size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE) 
+            ), 
+            column( 
+              6, radioButtons("sc4a2asp", "Aspect ratio:", 
+                              choices = c("Square", "Fixed", "Free"), 
+                              selected = "Square", inline = TRUE), 
+              checkboxInput("sc4a2txt", "Show axis text", value = FALSE) 
+            ) 
+          ) 
+        ) 
+      )  # End of column (6 space) 
+    ),   # End of fluidRow (4 space) 
+    fluidRow( 
+      column( 
+        6, style="border-right: 2px solid black", h4("Cell information 1"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc4a2inp1", "Cell information:", 
+                           choices = sc4conf$UI, 
+                           selected = sc4def$meta1) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Cell information to colour cells by", 
+                     content = c("Select cell information to colour cells", 
+                                 "- Categorical covariates have a fixed colour palette", 
+                                 paste0("- Continuous covariates are coloured in a ",  
+                                        "Blue-Yellow-Red colour scheme, which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc4a2tog1", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc4a2tog1 % 2 == 1", 
+              radioButtons("sc4a2col1", "Colour (Continuous data):", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "Blue-Yellow-Red"), 
+              radioButtons("sc4a2ord1", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Original", inline = TRUE), 
+              checkboxInput("sc4a2lab1", "Show cell info labels", value = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc4a2oup1.ui"))), 
+        downloadButton("sc4a2oup1.pdf", "Download PDF"), 
+        downloadButton("sc4a2oup1.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc4a2oup1.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc4a2oup1.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      ), # End of column (6 space) 
+      column( 
+        6, h4("Cell information 2"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc4a2inp2", "Cell information:", 
+                           choices = sc4conf$UI, 
+                           selected = sc4def$meta2) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Cell information to colour cells by", 
+                     content = c("Select cell information to colour cells", 
+                                 "- Categorical covariates have a fixed colour palette", 
+                                 paste0("- Continuous covariates are coloured in a ",  
+                                        "Blue-Yellow-Red colour scheme, which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc4a2tog2", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc4a2tog2 % 2 == 1", 
+              radioButtons("sc4a2col2", "Colour (Continuous data):", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "Blue-Yellow-Red"), 
+              radioButtons("sc4a2ord2", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Original", inline = TRUE), 
+              checkboxInput("sc4a2lab2", "Show cell info labels", value = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc4a2oup2.ui"))), 
+        downloadButton("sc4a2oup2.pdf", "Download PDF"), 
+        downloadButton("sc4a2oup2.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc4a2oup2.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc4a2oup2.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  ),     # End of tab (2 space) 
+   
+  ### Tab1.a3: geneExpr vs geneExpr on dimRed 
+  tabPanel( 
+    HTML("GeneExpr vs GeneExpr"), 
+    h4("Gene expression vs gene expression on dimension reduction"), 
+    "In this tab, users can visualise two gene expressions side-by-side ", 
+    "on low-dimensional representions.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, h4("Dimension Reduction"), 
+        fluidRow( 
+          column( 
+            12, selectInput("sc4a3drX", "X-axis:", choices = sc4conf[dimred == TRUE]$UI, 
+                           selected = sc4def$dimred[1]), 
+            selectInput("sc4a3drY", "Y-axis:", choices = sc4conf[dimred == TRUE]$UI, 
+                        selected = sc4def$dimred[2])) 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        3, actionButton("sc4a3togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc4a3togL % 2 == 1", 
+          selectInput("sc4a3sub1", "Cell information to subset:", 
+                      choices = sc4conf[grp == TRUE]$UI, 
+                      selected = sc4def$grp1), 
+          uiOutput("sc4a3sub1.ui"), 
+          actionButton("sc4a3sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc4a3sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, actionButton("sc4a3tog0", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc4a3tog0 % 2 == 1", 
+          fluidRow( 
+            column( 
+              6, sliderInput("sc4a3siz", "Point size:", 
+                             min = 0, max = 4, value = 1.25, step = 0.25), 
+              radioButtons("sc4a3psz", "Plot size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE), 
+              radioButtons("sc4a3fsz", "Font size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE) 
+            ), 
+            column( 
+              6, radioButtons("sc4a3asp", "Aspect ratio:", 
+                              choices = c("Square", "Fixed", "Free"), 
+                              selected = "Square", inline = TRUE), 
+              checkboxInput("sc4a3txt", "Show axis text", value = FALSE) 
+            ) 
+          ) 
+        ) 
+      )  # End of column (6 space) 
+    ),   # End of fluidRow (4 space) 
+    fluidRow( 
+      column( 
+        6, style="border-right: 2px solid black", h4("Gene expression 1"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc4a3inp1", "Gene name:", choices=NULL) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Gene expression to colour cells by", 
+                     content = c("Select gene to colour cells by gene expression", 
+                                 paste0("- Gene expression are coloured in a ", 
+                                        "White-Red colour scheme which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc4a3tog1", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc4a3tog1 % 2 == 1", 
+              radioButtons("sc4a3col1", "Colour:", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "White-Red"), 
+              radioButtons("sc4a3ord1", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Max-1st", inline = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc4a3oup1.ui"))), 
+        downloadButton("sc4a3oup1.pdf", "Download PDF"), 
+        downloadButton("sc4a3oup1.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc4a3oup1.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc4a3oup1.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      ), # End of column (6 space) 
+      column( 
+        6, h4("Gene expression 2"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc4a3inp2", "Gene name:", choices=NULL) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Gene expression to colour cells by", 
+                     content = c("Select gene to colour cells by gene expression", 
+                                 paste0("- Gene expression are coloured in a ", 
+                                        "White-Red colour scheme which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc4a3tog2", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc4a3tog2 % 2 == 1", 
+              radioButtons("sc4a3col2", "Colour:", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "White-Red"), 
+              radioButtons("sc4a3ord2", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Max-1st", inline = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc4a3oup2.ui"))), 
+        downloadButton("sc4a3oup2.pdf", "Download PDF"), 
+        downloadButton("sc4a3oup2.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc4a3oup2.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc4a3oup2.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  ),     # End of tab (2 space) 
+ 
+ ### Tab1.b2: Gene coexpression plot 
+ tabPanel( 
+   HTML("Gene coexpression"), 
+   h4("Coexpression of two genes on reduced dimensions"), 
+   "In this tab, users can visualise the coexpression of two genes ", 
+   "on low-dimensional representions.", 
+   br(),br(), 
+   fluidRow( 
+     column( 
+       3, h4("Dimension Reduction"), 
+       fluidRow( 
+         column( 
+           12, selectInput("sc4b2drX", "X-axis:", choices = sc4conf[dimred == TRUE]$UI, 
+                           selected = sc4def$dimred[1]), 
+           selectInput("sc4b2drY", "Y-axis:", choices = sc4conf[dimred == TRUE]$UI, 
+                       selected = sc4def$dimred[2])) 
+       ) 
+     ), # End of column (6 space) 
+     column( 
+       3, actionButton("sc4b2togL", "Toggle to subset cells"), 
+       conditionalPanel( 
+         condition = "input.sc4b2togL % 2 == 1", 
+         selectInput("sc4b2sub1", "Cell information to subset:", 
+                     choices = sc4conf[grp == TRUE]$UI, 
+                    selected = sc4def$grp1), 
+         uiOutput("sc4b2sub1.ui"), 
+         actionButton("sc4b2sub1all", "Select all groups", class = "btn btn-primary"), 
+         actionButton("sc4b2sub1non", "Deselect all groups", class = "btn btn-primary") 
+       ) 
+     ), # End of column (6 space) 
+     column( 
+       6, actionButton("sc4b2tog0", "Toggle graphics controls"), 
+       conditionalPanel( 
+         condition = "input.sc4b2tog0 % 2 == 1", 
+         fluidRow( 
+           column( 
+             6, sliderInput("sc4b2siz", "Point size:", 
+                            min = 0, max = 4, value = 1.25, step = 0.25), 
+             radioButtons("sc4b2psz", "Plot size:", 
+                          choices = c("Small", "Medium", "Large"), 
+                          selected = "Medium", inline = TRUE), 
+             radioButtons("sc4b2fsz", "Font size:", 
+                          choices = c("Small", "Medium", "Large"), 
+                          selected = "Medium", inline = TRUE) 
+           ), 
+           column( 
+             6, radioButtons("sc4b2asp", "Aspect ratio:", 
+                             choices = c("Square", "Fixed", "Free"), 
+                             selected = "Square", inline = TRUE), 
+             checkboxInput("sc4b2txt", "Show axis text", value = FALSE) 
+           ) 
+         ) 
+       ) 
+     )  # End of column (6 space) 
+   ),   # End of fluidRow (4 space) 
+   fluidRow( 
+     column( 
+       3, style="border-right: 2px solid black", h4("Gene Expression"), 
+       selectInput("sc4b2inp1", "Gene 1:", choices=NULL) %>%  
+         helper(type = "inline", size = "m", fade = TRUE, 
+               title = "Gene expression to colour cells by", 
+               content = c("Select gene to colour cells by gene expression", 
+                          paste0("- Gene expression are coloured in a ", 
+                                 "White-Red colour scheme which can be ", 
+                                 "changed in the plot controls"))), 
+       selectInput("sc4b2inp2", "Gene 2:", choices=NULL) %>% 
+         helper(type = "inline", size = "m", fade = TRUE, 
+                title = "Gene expression to colour cells by", 
+                content = c("Select gene to colour cells by gene expression", 
+                            paste0("- Gene expression are coloured in a ", 
+                                   "White-Blue colour scheme which can be ", 
+                                   "changed in the plot controls"))), 
+       actionButton("sc4b2tog1", "Toggle plot controls"), 
+       conditionalPanel( 
+         condition = "input.sc4b2tog1 % 2 == 1", 
+         radioButtons("sc4b2col1", "Colour:", 
+                      choices = c("Red (Gene1); Blue (Gene2)", 
+                                  "Orange (Gene1); Blue (Gene2)", 
+                                  "Red (Gene1); Green (Gene2)", 
+                                  "Green (Gene1); Blue (Gene2)"), 
+                      selected = "Red (Gene1); Blue (Gene2)"), 
+         radioButtons("sc4b2ord1", "Plot order:", 
+                      choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                      selected = "Max-1st", inline = TRUE) 
+       ) 
+     ), # End of column (6 space) 
+     column( 
+       6, style="border-right: 2px solid black", 
+       uiOutput("sc4b2oup1.ui"), 
+       downloadButton("sc4b2oup1.pdf", "Download PDF"), 
+       downloadButton("sc4b2oup1.png", "Download PNG"), br(), 
+       div(style="display:inline-block", 
+           numericInput("sc4b2oup1.h", "PDF / PNG height:", width = "138px", 
+                        min = 4, max = 20, value = 8, step = 0.5)), 
+       div(style="display:inline-block", 
+           numericInput("sc4b2oup1.w", "PDF / PNG width:", width = "138px", 
+                        min = 4, max = 20, value = 10, step = 0.5)) 
+     ), # End of column (6 space) 
+     column( 
+       3, uiOutput("sc4b2oup2.ui"), 
+       downloadButton("sc4b2oup2.pdf", "Download PDF"), 
+       downloadButton("sc4b2oup2.png", "Download PNG"), 
+       br(), h4("Cell numbers"), 
+       dataTableOutput("sc4b2.dt") 
+     )  # End of column (6 space) 
+   )    # End of fluidRow (4 space) 
+ ),     # End of tab (2 space) 
+ 
+ ### Tab1.c1: violinplot / boxplot 
+ tabPanel( 
+    HTML("Violinplot / Boxplot"),  
+   h4("Cell information / gene expression violin plot / box plot"), 
+   "In this tab, users can visualise the gene expression or continuous cell information ",  
+   "(e.g. Number of UMIs / module score) across groups of cells (e.g. libary / clusters).", 
+   br(),br(), 
+   fluidRow( 
+     column( 
+       3, style="border-right: 2px solid black", 
+       selectInput("sc4c1inp1", "Cell information (X-axis):", 
+                   choices = sc4conf[grp == TRUE]$UI, 
+                   selected = sc4def$grp1) %>%  
+         helper(type = "inline", size = "m", fade = TRUE, 
+                title = "Cell information to group cells by",  
+                content = c("Select categorical cell information to group cells by",  
+                            "- Single cells are grouped by this categorical covariate",  
+                            "- Plotted as the X-axis of the violin plot / box plot")),  
+       selectInput("sc4c1inp2", "Cell Info / Gene name (Y-axis):", choices=NULL) %>%  
+         helper(type = "inline", size = "m", fade = TRUE, 
+                title = "Cell Info / Gene to plot", 
+                content = c("Select cell info / gene to plot on Y-axis", 
+                            "- Can be continuous cell information (e.g. nUMIs / scores)", 
+                            "- Can also be gene expression")), 
+       radioButtons("sc4c1typ", "Plot type:", 
+                    choices = c("violin", "boxplot"), 
+                    selected = "violin", inline = TRUE), 
+       checkboxInput("sc4c1pts", "Show data points", value = FALSE), 
+       actionButton("sc4c1togL", "Toggle to subset cells"), 
+       conditionalPanel( 
+         condition = "input.sc4c1togL % 2 == 1", 
+         selectInput("sc4c1sub1", "Cell information to subset:", 
+                     choices = sc4conf[grp == TRUE]$UI, 
+                     selected = sc4def$grp1), 
+         uiOutput("sc4c1sub1.ui"), 
+         actionButton("sc4c1sub1all", "Select all groups", class = "btn btn-primary"), 
+         actionButton("sc4c1sub1non", "Deselect all groups", class = "btn btn-primary") 
+       ), br(), br(), 
+       actionButton("sc4c1tog", "Toggle graphics controls"), 
+       conditionalPanel( 
+         condition = "input.sc4c1tog % 2 == 1", 
+         sliderInput("sc4c1siz", "Data point size:",  
+                     min = 0, max = 4, value = 1.25, step = 0.25),  
+         radioButtons("sc4c1psz", "Plot size:", 
+                      choices = c("Small", "Medium", "Large"), 
+                      selected = "Medium", inline = TRUE), 
+         radioButtons("sc4c1fsz", "Font size:", 
+                      choices = c("Small", "Medium", "Large"), 
+                      selected = "Medium", inline = TRUE)) 
+     ), # End of column (6 space) 
+     column(9, uiOutput("sc4c1oup.ui"),  
+            downloadButton("sc4c1oup.pdf", "Download PDF"),  
+            downloadButton("sc4c1oup.png", "Download PNG"), br(), 
+            div(style="display:inline-block", 
+                numericInput("sc4c1oup.h", "PDF / PNG height:", width = "138px", 
+                             min = 4, max = 20, value = 8, step = 0.5)), 
+            div(style="display:inline-block", 
+                numericInput("sc4c1oup.w", "PDF / PNG width:", width = "138px", 
+                             min = 4, max = 20, value = 10, step = 0.5)) 
+     )  # End of column (6 space) 
+   )    # End of fluidRow (4 space) 
+ ),     # End of tab (2 space) 
+ 
+### Tab1.c2: Proportion plot 
+tabPanel( 
+  HTML("Proportion plot"), 
+  h4("Proportion / cell numbers across different cell information"), 
+  "In this tab, users can visualise the composition of single cells based on one discrete ", 
+  "cell information across another discrete cell information. ",  
+  "Usage examples include the library or cellcycle composition across clusters.", 
+  br(),br(), 
+  fluidRow( 
+    column( 
+      3, style="border-right: 2px solid black", 
+      selectInput("sc4c2inp1", "Cell information to plot (X-axis):", 
+                  choices = sc4conf[grp == TRUE]$UI, 
+                  selected = sc4def$grp2) %>%  
+        helper(type = "inline", size = "m", fade = TRUE, 
+               title = "Cell information to plot cells by",  
+               content = c("Select categorical cell information to plot cells by", 
+                           "- Plotted as the X-axis of the proportion plot")), 
+      selectInput("sc4c2inp2", "Cell information to group / colour by:", 
+                  choices = sc4conf[grp == TRUE]$UI, 
+                  selected = sc4def$grp1) %>%  
+        helper(type = "inline", size = "m", fade = TRUE, 
+               title = "Cell information to group / colour cells by", 
+               content = c("Select categorical cell information to group / colour cells by", 
+                           "- Proportion / cell numbers are shown in different colours")), 
+      radioButtons("sc4c2typ", "Plot value:", 
+                   choices = c("Proportion", "CellNumbers"), 
+                   selected = "Proportion", inline = TRUE), 
+      checkboxInput("sc4c2flp", "Flip X/Y", value = FALSE), 
+      actionButton("sc4c2togL", "Toggle to subset cells"), 
+      conditionalPanel( 
+        condition = "input.sc4c2togL % 2 == 1", 
+        selectInput("sc4c2sub1", "Cell information to subset:", 
+                    choices = sc4conf[grp == TRUE]$UI, 
+                    selected = sc4def$grp1), 
+        uiOutput("sc4c2sub1.ui"), 
+        actionButton("sc4c2sub1all", "Select all groups", class = "btn btn-primary"), 
+        actionButton("sc4c2sub1non", "Deselect all groups", class = "btn btn-primary") 
+      ), br(), br(), 
+      actionButton("sc4c2tog", "Toggle graphics controls"), 
+      conditionalPanel( 
+        condition = "input.sc4c2tog % 2 == 1", 
+        radioButtons("sc4c2psz", "Plot size:", 
+                     choices = c("Small", "Medium", "Large"), 
+                     selected = "Medium", inline = TRUE), 
+        radioButtons("sc4c2fsz", "Font size:", 
+                     choices = c("Small", "Medium", "Large"), 
+                     selected = "Medium", inline = TRUE)) 
+    ), # End of column (6 space) 
+    column(9, uiOutput("sc4c2oup.ui"),  
+           downloadButton("sc4c2oup.pdf", "Download PDF"),  
+           downloadButton("sc4c2oup.png", "Download PNG"), br(), 
+           div(style="display:inline-block", 
+               numericInput("sc4c2oup.h", "PDF / PNG height:", width = "138px", 
+                            min = 4, max = 20, value = 8, step = 0.5)), 
+           div(style="display:inline-block", 
+               numericInput("sc4c2oup.w", "PDF / PNG width:", width = "138px", 
+                            min = 4, max = 20, value = 10, step = 0.5)) 
+    )  # End of column (6 space) 
+  )    # End of fluidRow (4 space) 
+),     # End of tab (2 space) 
+ 
+  ### Tab1.d1: Multiple gene expr 
+  tabPanel( 
+    HTML("Bubbleplot / Heatmap"), 
+    h4("Gene expression bubbleplot / heatmap"), 
+    "In this tab, users can visualise the gene expression patterns of ", 
+    "multiple genes grouped by categorical cell information (e.g. library / cluster).", br(), 
+    "The normalised expression are averaged, log-transformed and then plotted.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, style="border-right: 2px solid black", 
+        textAreaInput("sc4d1inp", HTML("List of gene names <br /> 
+                                          (Max 50 genes, separated <br /> 
+                                           by , or ; or newline):"), 
+                      height = "200px", 
+                      value = paste0(sc4def$genes, collapse = ", ")) %>% 
+          helper(type = "inline", size = "m", fade = TRUE, 
+                 title = "List of genes to plot on bubbleplot / heatmap", 
+                 content = c("Input genes to plot", 
+                             "- Maximum 50 genes (due to ploting space limitations)", 
+                             "- Genes should be separated by comma, semicolon or newline")), 
+        selectInput("sc4d1grp", "Group by:", 
+                    choices = sc4conf[grp == TRUE]$UI, 
+                    selected = sc4conf[grp == TRUE]$UI[1]) %>% 
+          helper(type = "inline", size = "m", fade = TRUE, 
+                 title = "Cell information to group cells by", 
+                 content = c("Select categorical cell information to group cells by", 
+                             "- Single cells are grouped by this categorical covariate", 
+                             "- Plotted as the X-axis of the bubbleplot / heatmap")), 
+        radioButtons("sc4d1plt", "Plot type:", 
+                     choices = c("Bubbleplot", "Heatmap"), 
+                     selected = "Bubbleplot", inline = TRUE), 
+        checkboxInput("sc4d1scl", "Scale gene expression", value = TRUE), 
+        checkboxInput("sc4d1row", "Cluster rows (genes)", value = TRUE), 
+        checkboxInput("sc4d1col", "Cluster columns (samples)", value = FALSE), 
+        br(), 
+        actionButton("sc4d1togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc4d1togL % 2 == 1", 
+          selectInput("sc4d1sub1", "Cell information to subset:", 
+                      choices = sc4conf[grp == TRUE]$UI, 
+                      selected = sc4def$grp1), 
+          uiOutput("sc4d1sub1.ui"), 
+          actionButton("sc4d1sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc4d1sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ), br(), br(), 
+        actionButton("sc4d1tog", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc4d1tog % 2 == 1", 
+          radioButtons("sc4d1cols", "Colour scheme:", 
+                       choices = c("White-Red", "Blue-Yellow-Red", 
+                                   "Yellow-Green-Purple"), 
+                       selected = "Blue-Yellow-Red"), 
+          radioButtons("sc4d1psz", "Plot size:", 
+                       choices = c("Small", "Medium", "Large"), 
+                       selected = "Medium", inline = TRUE), 
+          radioButtons("sc4d1fsz", "Font size:", 
+                       choices = c("Small", "Medium", "Large"), 
+                       selected = "Medium", inline = TRUE)) 
+      ), # End of column (6 space) 
+      column(9, h4(htmlOutput("sc4d1oupTxt")), 
+             uiOutput("sc4d1oup.ui"), 
+             downloadButton("sc4d1oup.pdf", "Download PDF"), 
+             downloadButton("sc4d1oup.png", "Download PNG"), br(), 
+             div(style="display:inline-block", 
+                 numericInput("sc4d1oup.h", "PDF / PNG height:", width = "138px", 
+                              min = 4, max = 20, value = 10, step = 0.5)), 
+             div(style="display:inline-block", 
+                 numericInput("sc4d1oup.w", "PDF / PNG width:", width = "138px", 
+                              min = 4, max = 20, value = 10, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  )      # End of tab (2 space) 
+   ), 
+
+navbarMenu("Epithelium RNA",### Tab1.a1: cellInfo vs geneExpr on dimRed 
+  tabPanel( 
+    HTML("CellInfo vs GeneExpr"), 
+    h4("Cell information vs gene expression on reduced dimensions"), 
+    "In this tab, users can visualise both cell information and gene ",  
+    "expression side-by-side on low-dimensional representions.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, h4("Dimension Reduction"), 
+        fluidRow( 
+          column( 
+            12, selectInput("sc5a1drX", "X-axis:", choices = sc5conf[dimred == TRUE]$UI, 
+                           selected = sc5def$dimred[1]), 
+            selectInput("sc5a1drY", "Y-axis:", choices = sc5conf[dimred == TRUE]$UI, 
+                        selected = sc5def$dimred[2])) 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        3, actionButton("sc5a1togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc5a1togL % 2 == 1", 
+          selectInput("sc5a1sub1", "Cell information to subset:", 
+                      choices = sc5conf[grp == TRUE]$UI, 
+                      selected = sc5def$grp1), 
+          uiOutput("sc5a1sub1.ui"), 
+          actionButton("sc5a1sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc5a1sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, actionButton("sc5a1tog0", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc5a1tog0 % 2 == 1", 
+          fluidRow( 
+            column( 
+              6, sliderInput("sc5a1siz", "Point size:", 
+                             min = 0, max = 4, value = 1.25, step = 0.25), 
+              radioButtons("sc5a1psz", "Plot size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE), 
+              radioButtons("sc5a1fsz", "Font size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE) 
+            ), 
+            column( 
+              6, radioButtons("sc5a1asp", "Aspect ratio:", 
+                              choices = c("Square", "Fixed", "Free"), 
+                              selected = "Square", inline = TRUE), 
+              checkboxInput("sc5a1txt", "Show axis text", value = FALSE) 
+            ) 
+          ) 
+        ) 
+      )  # End of column (6 space) 
+    ),   # End of fluidRow (4 space) 
+    fluidRow( 
+      column( 
+        6, style="border-right: 2px solid black", h4("Cell information"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc5a1inp1", "Cell information:", 
+                           choices = sc5conf$UI, 
+                           selected = sc5def$meta1) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Cell information to colour cells by", 
+                     content = c("Select cell information to colour cells", 
+                                 "- Categorical covariates have a fixed colour palette", 
+                                 paste0("- Continuous covariates are coloured in a ",  
+                                        "Blue-Yellow-Red colour scheme, which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc5a1tog1", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc5a1tog1 % 2 == 1", 
+              radioButtons("sc5a1col1", "Colour (Continuous data):", 
+                           choices = c("White-Red","Blue-Yellow-Red","Yellow-Green-Purple"), 
+                           selected = "Blue-Yellow-Red"), 
+              radioButtons("sc5a1ord1", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Original", inline = TRUE), 
+              checkboxInput("sc5a1lab1", "Show cell info labels", value = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc5a1oup1.ui"))), 
+        downloadButton("sc5a1oup1.pdf", "Download PDF"), 
+        downloadButton("sc5a1oup1.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc5a1oup1.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc5a1oup1.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)), br(), 
+        actionButton("sc5a1tog9", "Toggle to show cell numbers / statistics"), 
+        conditionalPanel( 
+          condition = "input.sc5a1tog9 % 2 == 1", 
+          h4("Cell numbers / statistics"), 
+          radioButtons("sc5a1splt", "Split continuous cell info into:", 
+                       choices = c("Quartile", "Decile"), 
+                       selected = "Decile", inline = TRUE), 
+          dataTableOutput("sc5a1.dt") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, h4("Gene expression"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc5a1inp2", "Gene name:", choices=NULL) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Gene expression to colour cells by", 
+                     content = c("Select gene to colour cells by gene expression", 
+                                 paste0("- Gene expression are coloured in a ", 
+                                        "White-Red colour scheme which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc5a1tog2", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc5a1tog2 % 2 == 1", 
+              radioButtons("sc5a1col2", "Colour:", 
+                           choices = c("White-Red","Blue-Yellow-Red","Yellow-Green-Purple"), 
+                           selected = "White-Red"), 
+              radioButtons("sc5a1ord2", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Max-1st", inline = TRUE) 
+            ) 
+          ) 
+        ) , 
+        fluidRow(column(12, uiOutput("sc5a1oup2.ui"))), 
+        downloadButton("sc5a1oup2.pdf", "Download PDF"), 
+        downloadButton("sc5a1oup2.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc5a1oup2.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc5a1oup2.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  ),     # End of tab (2 space) 
+ 
+  ### Tab1.a2: cellInfo vs cellInfo on dimRed 
+  tabPanel( 
+    HTML("CellInfo vs CellInfo"), 
+    h4("Cell information vs cell information on dimension reduction"), 
+    "In this tab, users can visualise two cell informations side-by-side ", 
+    "on low-dimensional representions.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, h4("Dimension Reduction"), 
+        fluidRow( 
+          column( 
+            12, selectInput("sc5a2drX", "X-axis:", choices = sc5conf[dimred == TRUE]$UI, 
+                           selected = sc5def$dimred[1]), 
+            selectInput("sc5a2drY", "Y-axis:", choices = sc5conf[dimred == TRUE]$UI, 
+                        selected = sc5def$dimred[2])) 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        3, actionButton("sc5a2togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc5a2togL % 2 == 1", 
+          selectInput("sc5a2sub1", "Cell information to subset:", 
+                      choices = sc5conf[grp == TRUE]$UI, 
+                      selected = sc5def$grp1), 
+          uiOutput("sc5a2sub1.ui"), 
+          actionButton("sc5a2sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc5a2sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, actionButton("sc5a2tog0", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc5a2tog0 % 2 == 1", 
+          fluidRow( 
+            column( 
+              6, sliderInput("sc5a2siz", "Point size:", 
+                             min = 0, max = 4, value = 1.25, step = 0.25), 
+              radioButtons("sc5a2psz", "Plot size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE), 
+              radioButtons("sc5a2fsz", "Font size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE) 
+            ), 
+            column( 
+              6, radioButtons("sc5a2asp", "Aspect ratio:", 
+                              choices = c("Square", "Fixed", "Free"), 
+                              selected = "Square", inline = TRUE), 
+              checkboxInput("sc5a2txt", "Show axis text", value = FALSE) 
+            ) 
+          ) 
+        ) 
+      )  # End of column (6 space) 
+    ),   # End of fluidRow (4 space) 
+    fluidRow( 
+      column( 
+        6, style="border-right: 2px solid black", h4("Cell information 1"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc5a2inp1", "Cell information:", 
+                           choices = sc5conf$UI, 
+                           selected = sc5def$meta1) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Cell information to colour cells by", 
+                     content = c("Select cell information to colour cells", 
+                                 "- Categorical covariates have a fixed colour palette", 
+                                 paste0("- Continuous covariates are coloured in a ",  
+                                        "Blue-Yellow-Red colour scheme, which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc5a2tog1", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc5a2tog1 % 2 == 1", 
+              radioButtons("sc5a2col1", "Colour (Continuous data):", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "Blue-Yellow-Red"), 
+              radioButtons("sc5a2ord1", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Original", inline = TRUE), 
+              checkboxInput("sc5a2lab1", "Show cell info labels", value = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc5a2oup1.ui"))), 
+        downloadButton("sc5a2oup1.pdf", "Download PDF"), 
+        downloadButton("sc5a2oup1.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc5a2oup1.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc5a2oup1.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      ), # End of column (6 space) 
+      column( 
+        6, h4("Cell information 2"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc5a2inp2", "Cell information:", 
+                           choices = sc5conf$UI, 
+                           selected = sc5def$meta2) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Cell information to colour cells by", 
+                     content = c("Select cell information to colour cells", 
+                                 "- Categorical covariates have a fixed colour palette", 
+                                 paste0("- Continuous covariates are coloured in a ",  
+                                        "Blue-Yellow-Red colour scheme, which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc5a2tog2", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc5a2tog2 % 2 == 1", 
+              radioButtons("sc5a2col2", "Colour (Continuous data):", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "Blue-Yellow-Red"), 
+              radioButtons("sc5a2ord2", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Original", inline = TRUE), 
+              checkboxInput("sc5a2lab2", "Show cell info labels", value = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc5a2oup2.ui"))), 
+        downloadButton("sc5a2oup2.pdf", "Download PDF"), 
+        downloadButton("sc5a2oup2.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc5a2oup2.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc5a2oup2.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  ),     # End of tab (2 space) 
+   
+  ### Tab1.a3: geneExpr vs geneExpr on dimRed 
+  tabPanel( 
+    HTML("GeneExpr vs GeneExpr"), 
+    h4("Gene expression vs gene expression on dimension reduction"), 
+    "In this tab, users can visualise two gene expressions side-by-side ", 
+    "on low-dimensional representions.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, h4("Dimension Reduction"), 
+        fluidRow( 
+          column( 
+            12, selectInput("sc5a3drX", "X-axis:", choices = sc5conf[dimred == TRUE]$UI, 
+                           selected = sc5def$dimred[1]), 
+            selectInput("sc5a3drY", "Y-axis:", choices = sc5conf[dimred == TRUE]$UI, 
+                        selected = sc5def$dimred[2])) 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        3, actionButton("sc5a3togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc5a3togL % 2 == 1", 
+          selectInput("sc5a3sub1", "Cell information to subset:", 
+                      choices = sc5conf[grp == TRUE]$UI, 
+                      selected = sc5def$grp1), 
+          uiOutput("sc5a3sub1.ui"), 
+          actionButton("sc5a3sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc5a3sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, actionButton("sc5a3tog0", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc5a3tog0 % 2 == 1", 
+          fluidRow( 
+            column( 
+              6, sliderInput("sc5a3siz", "Point size:", 
+                             min = 0, max = 4, value = 1.25, step = 0.25), 
+              radioButtons("sc5a3psz", "Plot size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE), 
+              radioButtons("sc5a3fsz", "Font size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE) 
+            ), 
+            column( 
+              6, radioButtons("sc5a3asp", "Aspect ratio:", 
+                              choices = c("Square", "Fixed", "Free"), 
+                              selected = "Square", inline = TRUE), 
+              checkboxInput("sc5a3txt", "Show axis text", value = FALSE) 
+            ) 
+          ) 
+        ) 
+      )  # End of column (6 space) 
+    ),   # End of fluidRow (4 space) 
+    fluidRow( 
+      column( 
+        6, style="border-right: 2px solid black", h4("Gene expression 1"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc5a3inp1", "Gene name:", choices=NULL) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Gene expression to colour cells by", 
+                     content = c("Select gene to colour cells by gene expression", 
+                                 paste0("- Gene expression are coloured in a ", 
+                                        "White-Red colour scheme which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc5a3tog1", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc5a3tog1 % 2 == 1", 
+              radioButtons("sc5a3col1", "Colour:", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "White-Red"), 
+              radioButtons("sc5a3ord1", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Max-1st", inline = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc5a3oup1.ui"))), 
+        downloadButton("sc5a3oup1.pdf", "Download PDF"), 
+        downloadButton("sc5a3oup1.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc5a3oup1.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc5a3oup1.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      ), # End of column (6 space) 
+      column( 
+        6, h4("Gene expression 2"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc5a3inp2", "Gene name:", choices=NULL) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Gene expression to colour cells by", 
+                     content = c("Select gene to colour cells by gene expression", 
+                                 paste0("- Gene expression are coloured in a ", 
+                                        "White-Red colour scheme which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc5a3tog2", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc5a3tog2 % 2 == 1", 
+              radioButtons("sc5a3col2", "Colour:", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "White-Red"), 
+              radioButtons("sc5a3ord2", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Max-1st", inline = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc5a3oup2.ui"))), 
+        downloadButton("sc5a3oup2.pdf", "Download PDF"), 
+        downloadButton("sc5a3oup2.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc5a3oup2.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc5a3oup2.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  ),     # End of tab (2 space) 
+ 
+ ### Tab1.b2: Gene coexpression plot 
+ tabPanel( 
+   HTML("Gene coexpression"), 
+   h4("Coexpression of two genes on reduced dimensions"), 
+   "In this tab, users can visualise the coexpression of two genes ", 
+   "on low-dimensional representions.", 
+   br(),br(), 
+   fluidRow( 
+     column( 
+       3, h4("Dimension Reduction"), 
+       fluidRow( 
+         column( 
+           12, selectInput("sc5b2drX", "X-axis:", choices = sc5conf[dimred == TRUE]$UI, 
+                           selected = sc5def$dimred[1]), 
+           selectInput("sc5b2drY", "Y-axis:", choices = sc5conf[dimred == TRUE]$UI, 
+                       selected = sc5def$dimred[2])) 
+       ) 
+     ), # End of column (6 space) 
+     column( 
+       3, actionButton("sc5b2togL", "Toggle to subset cells"), 
+       conditionalPanel( 
+         condition = "input.sc5b2togL % 2 == 1", 
+         selectInput("sc5b2sub1", "Cell information to subset:", 
+                     choices = sc5conf[grp == TRUE]$UI, 
+                    selected = sc5def$grp1), 
+         uiOutput("sc5b2sub1.ui"), 
+         actionButton("sc5b2sub1all", "Select all groups", class = "btn btn-primary"), 
+         actionButton("sc5b2sub1non", "Deselect all groups", class = "btn btn-primary") 
+       ) 
+     ), # End of column (6 space) 
+     column( 
+       6, actionButton("sc5b2tog0", "Toggle graphics controls"), 
+       conditionalPanel( 
+         condition = "input.sc5b2tog0 % 2 == 1", 
+         fluidRow( 
+           column( 
+             6, sliderInput("sc5b2siz", "Point size:", 
+                            min = 0, max = 4, value = 1.25, step = 0.25), 
+             radioButtons("sc5b2psz", "Plot size:", 
+                          choices = c("Small", "Medium", "Large"), 
+                          selected = "Medium", inline = TRUE), 
+             radioButtons("sc5b2fsz", "Font size:", 
+                          choices = c("Small", "Medium", "Large"), 
+                          selected = "Medium", inline = TRUE) 
+           ), 
+           column( 
+             6, radioButtons("sc5b2asp", "Aspect ratio:", 
+                             choices = c("Square", "Fixed", "Free"), 
+                             selected = "Square", inline = TRUE), 
+             checkboxInput("sc5b2txt", "Show axis text", value = FALSE) 
+           ) 
+         ) 
+       ) 
+     )  # End of column (6 space) 
+   ),   # End of fluidRow (4 space) 
+   fluidRow( 
+     column( 
+       3, style="border-right: 2px solid black", h4("Gene Expression"), 
+       selectInput("sc5b2inp1", "Gene 1:", choices=NULL) %>%  
+         helper(type = "inline", size = "m", fade = TRUE, 
+               title = "Gene expression to colour cells by", 
+               content = c("Select gene to colour cells by gene expression", 
+                          paste0("- Gene expression are coloured in a ", 
+                                 "White-Red colour scheme which can be ", 
+                                 "changed in the plot controls"))), 
+       selectInput("sc5b2inp2", "Gene 2:", choices=NULL) %>% 
+         helper(type = "inline", size = "m", fade = TRUE, 
+                title = "Gene expression to colour cells by", 
+                content = c("Select gene to colour cells by gene expression", 
+                            paste0("- Gene expression are coloured in a ", 
+                                   "White-Blue colour scheme which can be ", 
+                                   "changed in the plot controls"))), 
+       actionButton("sc5b2tog1", "Toggle plot controls"), 
+       conditionalPanel( 
+         condition = "input.sc5b2tog1 % 2 == 1", 
+         radioButtons("sc5b2col1", "Colour:", 
+                      choices = c("Red (Gene1); Blue (Gene2)", 
+                                  "Orange (Gene1); Blue (Gene2)", 
+                                  "Red (Gene1); Green (Gene2)", 
+                                  "Green (Gene1); Blue (Gene2)"), 
+                      selected = "Red (Gene1); Blue (Gene2)"), 
+         radioButtons("sc5b2ord1", "Plot order:", 
+                      choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                      selected = "Max-1st", inline = TRUE) 
+       ) 
+     ), # End of column (6 space) 
+     column( 
+       6, style="border-right: 2px solid black", 
+       uiOutput("sc5b2oup1.ui"), 
+       downloadButton("sc5b2oup1.pdf", "Download PDF"), 
+       downloadButton("sc5b2oup1.png", "Download PNG"), br(), 
+       div(style="display:inline-block", 
+           numericInput("sc5b2oup1.h", "PDF / PNG height:", width = "138px", 
+                        min = 4, max = 20, value = 8, step = 0.5)), 
+       div(style="display:inline-block", 
+           numericInput("sc5b2oup1.w", "PDF / PNG width:", width = "138px", 
+                        min = 4, max = 20, value = 10, step = 0.5)) 
+     ), # End of column (6 space) 
+     column( 
+       3, uiOutput("sc5b2oup2.ui"), 
+       downloadButton("sc5b2oup2.pdf", "Download PDF"), 
+       downloadButton("sc5b2oup2.png", "Download PNG"), 
+       br(), h4("Cell numbers"), 
+       dataTableOutput("sc5b2.dt") 
+     )  # End of column (6 space) 
+   )    # End of fluidRow (4 space) 
+ ),     # End of tab (2 space) 
+ 
+ ### Tab1.c1: violinplot / boxplot 
+ tabPanel( 
+    HTML("Violinplot / Boxplot"),  
+   h4("Cell information / gene expression violin plot / box plot"), 
+   "In this tab, users can visualise the gene expression or continuous cell information ",  
+   "(e.g. Number of UMIs / module score) across groups of cells (e.g. libary / clusters).", 
+   br(),br(), 
+   fluidRow( 
+     column( 
+       3, style="border-right: 2px solid black", 
+       selectInput("sc5c1inp1", "Cell information (X-axis):", 
+                   choices = sc5conf[grp == TRUE]$UI, 
+                   selected = sc5def$grp1) %>%  
+         helper(type = "inline", size = "m", fade = TRUE, 
+                title = "Cell information to group cells by",  
+                content = c("Select categorical cell information to group cells by",  
+                            "- Single cells are grouped by this categorical covariate",  
+                            "- Plotted as the X-axis of the violin plot / box plot")),  
+       selectInput("sc5c1inp2", "Cell Info / Gene name (Y-axis):", choices=NULL) %>%  
+         helper(type = "inline", size = "m", fade = TRUE, 
+                title = "Cell Info / Gene to plot", 
+                content = c("Select cell info / gene to plot on Y-axis", 
+                            "- Can be continuous cell information (e.g. nUMIs / scores)", 
+                            "- Can also be gene expression")), 
+       radioButtons("sc5c1typ", "Plot type:", 
+                    choices = c("violin", "boxplot"), 
+                    selected = "violin", inline = TRUE), 
+       checkboxInput("sc5c1pts", "Show data points", value = FALSE), 
+       actionButton("sc5c1togL", "Toggle to subset cells"), 
+       conditionalPanel( 
+         condition = "input.sc5c1togL % 2 == 1", 
+         selectInput("sc5c1sub1", "Cell information to subset:", 
+                     choices = sc5conf[grp == TRUE]$UI, 
+                     selected = sc5def$grp1), 
+         uiOutput("sc5c1sub1.ui"), 
+         actionButton("sc5c1sub1all", "Select all groups", class = "btn btn-primary"), 
+         actionButton("sc5c1sub1non", "Deselect all groups", class = "btn btn-primary") 
+       ), br(), br(), 
+       actionButton("sc5c1tog", "Toggle graphics controls"), 
+       conditionalPanel( 
+         condition = "input.sc5c1tog % 2 == 1", 
+         sliderInput("sc5c1siz", "Data point size:",  
+                     min = 0, max = 4, value = 1.25, step = 0.25),  
+         radioButtons("sc5c1psz", "Plot size:", 
+                      choices = c("Small", "Medium", "Large"), 
+                      selected = "Medium", inline = TRUE), 
+         radioButtons("sc5c1fsz", "Font size:", 
+                      choices = c("Small", "Medium", "Large"), 
+                      selected = "Medium", inline = TRUE)) 
+     ), # End of column (6 space) 
+     column(9, uiOutput("sc5c1oup.ui"),  
+            downloadButton("sc5c1oup.pdf", "Download PDF"),  
+            downloadButton("sc5c1oup.png", "Download PNG"), br(), 
+            div(style="display:inline-block", 
+                numericInput("sc5c1oup.h", "PDF / PNG height:", width = "138px", 
+                             min = 4, max = 20, value = 8, step = 0.5)), 
+            div(style="display:inline-block", 
+                numericInput("sc5c1oup.w", "PDF / PNG width:", width = "138px", 
+                             min = 4, max = 20, value = 10, step = 0.5)) 
+     )  # End of column (6 space) 
+   )    # End of fluidRow (4 space) 
+ ),     # End of tab (2 space) 
+ 
+### Tab1.c2: Proportion plot 
+tabPanel( 
+  HTML("Proportion plot"), 
+  h4("Proportion / cell numbers across different cell information"), 
+  "In this tab, users can visualise the composition of single cells based on one discrete ", 
+  "cell information across another discrete cell information. ",  
+  "Usage examples include the library or cellcycle composition across clusters.", 
+  br(),br(), 
+  fluidRow( 
+    column( 
+      3, style="border-right: 2px solid black", 
+      selectInput("sc5c2inp1", "Cell information to plot (X-axis):", 
+                  choices = sc5conf[grp == TRUE]$UI, 
+                  selected = sc5def$grp2) %>%  
+        helper(type = "inline", size = "m", fade = TRUE, 
+               title = "Cell information to plot cells by",  
+               content = c("Select categorical cell information to plot cells by", 
+                           "- Plotted as the X-axis of the proportion plot")), 
+      selectInput("sc5c2inp2", "Cell information to group / colour by:", 
+                  choices = sc5conf[grp == TRUE]$UI, 
+                  selected = sc5def$grp1) %>%  
+        helper(type = "inline", size = "m", fade = TRUE, 
+               title = "Cell information to group / colour cells by", 
+               content = c("Select categorical cell information to group / colour cells by", 
+                           "- Proportion / cell numbers are shown in different colours")), 
+      radioButtons("sc5c2typ", "Plot value:", 
+                   choices = c("Proportion", "CellNumbers"), 
+                   selected = "Proportion", inline = TRUE), 
+      checkboxInput("sc5c2flp", "Flip X/Y", value = FALSE), 
+      actionButton("sc5c2togL", "Toggle to subset cells"), 
+      conditionalPanel( 
+        condition = "input.sc5c2togL % 2 == 1", 
+        selectInput("sc5c2sub1", "Cell information to subset:", 
+                    choices = sc5conf[grp == TRUE]$UI, 
+                    selected = sc5def$grp1), 
+        uiOutput("sc5c2sub1.ui"), 
+        actionButton("sc5c2sub1all", "Select all groups", class = "btn btn-primary"), 
+        actionButton("sc5c2sub1non", "Deselect all groups", class = "btn btn-primary") 
+      ), br(), br(), 
+      actionButton("sc5c2tog", "Toggle graphics controls"), 
+      conditionalPanel( 
+        condition = "input.sc5c2tog % 2 == 1", 
+        radioButtons("sc5c2psz", "Plot size:", 
+                     choices = c("Small", "Medium", "Large"), 
+                     selected = "Medium", inline = TRUE), 
+        radioButtons("sc5c2fsz", "Font size:", 
+                     choices = c("Small", "Medium", "Large"), 
+                     selected = "Medium", inline = TRUE)) 
+    ), # End of column (6 space) 
+    column(9, uiOutput("sc5c2oup.ui"),  
+           downloadButton("sc5c2oup.pdf", "Download PDF"),  
+           downloadButton("sc5c2oup.png", "Download PNG"), br(), 
+           div(style="display:inline-block", 
+               numericInput("sc5c2oup.h", "PDF / PNG height:", width = "138px", 
+                            min = 4, max = 20, value = 8, step = 0.5)), 
+           div(style="display:inline-block", 
+               numericInput("sc5c2oup.w", "PDF / PNG width:", width = "138px", 
+                            min = 4, max = 20, value = 10, step = 0.5)) 
+    )  # End of column (6 space) 
+  )    # End of fluidRow (4 space) 
+),     # End of tab (2 space) 
+ 
+  ### Tab1.d1: Multiple gene expr 
+  tabPanel( 
+    HTML("Bubbleplot / Heatmap"), 
+    h4("Gene expression bubbleplot / heatmap"), 
+    "In this tab, users can visualise the gene expression patterns of ", 
+    "multiple genes grouped by categorical cell information (e.g. library / cluster).", br(), 
+    "The normalised expression are averaged, log-transformed and then plotted.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, style="border-right: 2px solid black", 
+        textAreaInput("sc5d1inp", HTML("List of gene names <br /> 
+                                          (Max 50 genes, separated <br /> 
+                                           by , or ; or newline):"), 
+                      height = "200px", 
+                      value = paste0(sc5def$genes, collapse = ", ")) %>% 
+          helper(type = "inline", size = "m", fade = TRUE, 
+                 title = "List of genes to plot on bubbleplot / heatmap", 
+                 content = c("Input genes to plot", 
+                             "- Maximum 50 genes (due to ploting space limitations)", 
+                             "- Genes should be separated by comma, semicolon or newline")), 
+        selectInput("sc5d1grp", "Group by:", 
+                    choices = sc5conf[grp == TRUE]$UI, 
+                    selected = sc5conf[grp == TRUE]$UI[1]) %>% 
+          helper(type = "inline", size = "m", fade = TRUE, 
+                 title = "Cell information to group cells by", 
+                 content = c("Select categorical cell information to group cells by", 
+                             "- Single cells are grouped by this categorical covariate", 
+                             "- Plotted as the X-axis of the bubbleplot / heatmap")), 
+        radioButtons("sc5d1plt", "Plot type:", 
+                     choices = c("Bubbleplot", "Heatmap"), 
+                     selected = "Bubbleplot", inline = TRUE), 
+        checkboxInput("sc5d1scl", "Scale gene expression", value = TRUE), 
+        checkboxInput("sc5d1row", "Cluster rows (genes)", value = TRUE), 
+        checkboxInput("sc5d1col", "Cluster columns (samples)", value = FALSE), 
+        br(), 
+        actionButton("sc5d1togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc5d1togL % 2 == 1", 
+          selectInput("sc5d1sub1", "Cell information to subset:", 
+                      choices = sc5conf[grp == TRUE]$UI, 
+                      selected = sc5def$grp1), 
+          uiOutput("sc5d1sub1.ui"), 
+          actionButton("sc5d1sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc5d1sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ), br(), br(), 
+        actionButton("sc5d1tog", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc5d1tog % 2 == 1", 
+          radioButtons("sc5d1cols", "Colour scheme:", 
+                       choices = c("White-Red", "Blue-Yellow-Red", 
+                                   "Yellow-Green-Purple"), 
+                       selected = "Blue-Yellow-Red"), 
+          radioButtons("sc5d1psz", "Plot size:", 
+                       choices = c("Small", "Medium", "Large"), 
+                       selected = "Medium", inline = TRUE), 
+          radioButtons("sc5d1fsz", "Font size:", 
+                       choices = c("Small", "Medium", "Large"), 
+                       selected = "Medium", inline = TRUE)) 
+      ), # End of column (6 space) 
+      column(9, h4(htmlOutput("sc5d1oupTxt")), 
+             uiOutput("sc5d1oup.ui"), 
+             downloadButton("sc5d1oup.pdf", "Download PDF"), 
+             downloadButton("sc5d1oup.png", "Download PNG"), br(), 
+             div(style="display:inline-block", 
+                 numericInput("sc5d1oup.h", "PDF / PNG height:", width = "138px", 
+                              min = 4, max = 20, value = 10, step = 0.5)), 
+             div(style="display:inline-block", 
+                 numericInput("sc5d1oup.w", "PDF / PNG width:", width = "138px", 
+                              min = 4, max = 20, value = 10, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  )      # End of tab (2 space) 
+   ), 
+
+navbarMenu("Epithelium Protein",### Tab1.a1: cellInfo vs geneExpr on dimRed 
+  tabPanel( 
+    HTML("CellInfo vs GeneExpr"), 
+    h4("Cell information vs gene expression on reduced dimensions"), 
+    "In this tab, users can visualise both cell information and gene ",  
+    "expression side-by-side on low-dimensional representions.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, h4("Dimension Reduction"), 
+        fluidRow( 
+          column( 
+            12, selectInput("sc6a1drX", "X-axis:", choices = sc6conf[dimred == TRUE]$UI, 
+                           selected = sc6def$dimred[1]), 
+            selectInput("sc6a1drY", "Y-axis:", choices = sc6conf[dimred == TRUE]$UI, 
+                        selected = sc6def$dimred[2])) 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        3, actionButton("sc6a1togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc6a1togL % 2 == 1", 
+          selectInput("sc6a1sub1", "Cell information to subset:", 
+                      choices = sc6conf[grp == TRUE]$UI, 
+                      selected = sc6def$grp1), 
+          uiOutput("sc6a1sub1.ui"), 
+          actionButton("sc6a1sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc6a1sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, actionButton("sc6a1tog0", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc6a1tog0 % 2 == 1", 
+          fluidRow( 
+            column( 
+              6, sliderInput("sc6a1siz", "Point size:", 
+                             min = 0, max = 4, value = 1.25, step = 0.25), 
+              radioButtons("sc6a1psz", "Plot size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE), 
+              radioButtons("sc6a1fsz", "Font size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE) 
+            ), 
+            column( 
+              6, radioButtons("sc6a1asp", "Aspect ratio:", 
+                              choices = c("Square", "Fixed", "Free"), 
+                              selected = "Square", inline = TRUE), 
+              checkboxInput("sc6a1txt", "Show axis text", value = FALSE) 
+            ) 
+          ) 
+        ) 
+      )  # End of column (6 space) 
+    ),   # End of fluidRow (4 space) 
+    fluidRow( 
+      column( 
+        6, style="border-right: 2px solid black", h4("Cell information"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc6a1inp1", "Cell information:", 
+                           choices = sc6conf$UI, 
+                           selected = sc6def$meta1) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Cell information to colour cells by", 
+                     content = c("Select cell information to colour cells", 
+                                 "- Categorical covariates have a fixed colour palette", 
+                                 paste0("- Continuous covariates are coloured in a ",  
+                                        "Blue-Yellow-Red colour scheme, which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc6a1tog1", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc6a1tog1 % 2 == 1", 
+              radioButtons("sc6a1col1", "Colour (Continuous data):", 
+                           choices = c("White-Red","Blue-Yellow-Red","Yellow-Green-Purple"), 
+                           selected = "Blue-Yellow-Red"), 
+              radioButtons("sc6a1ord1", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Original", inline = TRUE), 
+              checkboxInput("sc6a1lab1", "Show cell info labels", value = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc6a1oup1.ui"))), 
+        downloadButton("sc6a1oup1.pdf", "Download PDF"), 
+        downloadButton("sc6a1oup1.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc6a1oup1.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc6a1oup1.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)), br(), 
+        actionButton("sc6a1tog9", "Toggle to show cell numbers / statistics"), 
+        conditionalPanel( 
+          condition = "input.sc6a1tog9 % 2 == 1", 
+          h4("Cell numbers / statistics"), 
+          radioButtons("sc6a1splt", "Split continuous cell info into:", 
+                       choices = c("Quartile", "Decile"), 
+                       selected = "Decile", inline = TRUE), 
+          dataTableOutput("sc6a1.dt") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, h4("Gene expression"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc6a1inp2", "Gene name:", choices=NULL) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Gene expression to colour cells by", 
+                     content = c("Select gene to colour cells by gene expression", 
+                                 paste0("- Gene expression are coloured in a ", 
+                                        "White-Red colour scheme which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc6a1tog2", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc6a1tog2 % 2 == 1", 
+              radioButtons("sc6a1col2", "Colour:", 
+                           choices = c("White-Red","Blue-Yellow-Red","Yellow-Green-Purple"), 
+                           selected = "White-Red"), 
+              radioButtons("sc6a1ord2", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Max-1st", inline = TRUE) 
+            ) 
+          ) 
+        ) , 
+        fluidRow(column(12, uiOutput("sc6a1oup2.ui"))), 
+        downloadButton("sc6a1oup2.pdf", "Download PDF"), 
+        downloadButton("sc6a1oup2.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc6a1oup2.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc6a1oup2.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  ),     # End of tab (2 space) 
+ 
+  ### Tab1.a2: cellInfo vs cellInfo on dimRed 
+  tabPanel( 
+    HTML("CellInfo vs CellInfo"), 
+    h4("Cell information vs cell information on dimension reduction"), 
+    "In this tab, users can visualise two cell informations side-by-side ", 
+    "on low-dimensional representions.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, h4("Dimension Reduction"), 
+        fluidRow( 
+          column( 
+            12, selectInput("sc6a2drX", "X-axis:", choices = sc6conf[dimred == TRUE]$UI, 
+                           selected = sc6def$dimred[1]), 
+            selectInput("sc6a2drY", "Y-axis:", choices = sc6conf[dimred == TRUE]$UI, 
+                        selected = sc6def$dimred[2])) 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        3, actionButton("sc6a2togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc6a2togL % 2 == 1", 
+          selectInput("sc6a2sub1", "Cell information to subset:", 
+                      choices = sc6conf[grp == TRUE]$UI, 
+                      selected = sc6def$grp1), 
+          uiOutput("sc6a2sub1.ui"), 
+          actionButton("sc6a2sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc6a2sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, actionButton("sc6a2tog0", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc6a2tog0 % 2 == 1", 
+          fluidRow( 
+            column( 
+              6, sliderInput("sc6a2siz", "Point size:", 
+                             min = 0, max = 4, value = 1.25, step = 0.25), 
+              radioButtons("sc6a2psz", "Plot size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE), 
+              radioButtons("sc6a2fsz", "Font size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE) 
+            ), 
+            column( 
+              6, radioButtons("sc6a2asp", "Aspect ratio:", 
+                              choices = c("Square", "Fixed", "Free"), 
+                              selected = "Square", inline = TRUE), 
+              checkboxInput("sc6a2txt", "Show axis text", value = FALSE) 
+            ) 
+          ) 
+        ) 
+      )  # End of column (6 space) 
+    ),   # End of fluidRow (4 space) 
+    fluidRow( 
+      column( 
+        6, style="border-right: 2px solid black", h4("Cell information 1"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc6a2inp1", "Cell information:", 
+                           choices = sc6conf$UI, 
+                           selected = sc6def$meta1) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Cell information to colour cells by", 
+                     content = c("Select cell information to colour cells", 
+                                 "- Categorical covariates have a fixed colour palette", 
+                                 paste0("- Continuous covariates are coloured in a ",  
+                                        "Blue-Yellow-Red colour scheme, which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc6a2tog1", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc6a2tog1 % 2 == 1", 
+              radioButtons("sc6a2col1", "Colour (Continuous data):", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "Blue-Yellow-Red"), 
+              radioButtons("sc6a2ord1", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Original", inline = TRUE), 
+              checkboxInput("sc6a2lab1", "Show cell info labels", value = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc6a2oup1.ui"))), 
+        downloadButton("sc6a2oup1.pdf", "Download PDF"), 
+        downloadButton("sc6a2oup1.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc6a2oup1.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc6a2oup1.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      ), # End of column (6 space) 
+      column( 
+        6, h4("Cell information 2"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc6a2inp2", "Cell information:", 
+                           choices = sc6conf$UI, 
+                           selected = sc6def$meta2) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Cell information to colour cells by", 
+                     content = c("Select cell information to colour cells", 
+                                 "- Categorical covariates have a fixed colour palette", 
+                                 paste0("- Continuous covariates are coloured in a ",  
+                                        "Blue-Yellow-Red colour scheme, which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc6a2tog2", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc6a2tog2 % 2 == 1", 
+              radioButtons("sc6a2col2", "Colour (Continuous data):", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "Blue-Yellow-Red"), 
+              radioButtons("sc6a2ord2", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Original", inline = TRUE), 
+              checkboxInput("sc6a2lab2", "Show cell info labels", value = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc6a2oup2.ui"))), 
+        downloadButton("sc6a2oup2.pdf", "Download PDF"), 
+        downloadButton("sc6a2oup2.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc6a2oup2.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc6a2oup2.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  ),     # End of tab (2 space) 
+   
+  ### Tab1.a3: geneExpr vs geneExpr on dimRed 
+  tabPanel( 
+    HTML("GeneExpr vs GeneExpr"), 
+    h4("Gene expression vs gene expression on dimension reduction"), 
+    "In this tab, users can visualise two gene expressions side-by-side ", 
+    "on low-dimensional representions.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, h4("Dimension Reduction"), 
+        fluidRow( 
+          column( 
+            12, selectInput("sc6a3drX", "X-axis:", choices = sc6conf[dimred == TRUE]$UI, 
+                           selected = sc6def$dimred[1]), 
+            selectInput("sc6a3drY", "Y-axis:", choices = sc6conf[dimred == TRUE]$UI, 
+                        selected = sc6def$dimred[2])) 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        3, actionButton("sc6a3togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc6a3togL % 2 == 1", 
+          selectInput("sc6a3sub1", "Cell information to subset:", 
+                      choices = sc6conf[grp == TRUE]$UI, 
+                      selected = sc6def$grp1), 
+          uiOutput("sc6a3sub1.ui"), 
+          actionButton("sc6a3sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc6a3sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, actionButton("sc6a3tog0", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc6a3tog0 % 2 == 1", 
+          fluidRow( 
+            column( 
+              6, sliderInput("sc6a3siz", "Point size:", 
+                             min = 0, max = 4, value = 1.25, step = 0.25), 
+              radioButtons("sc6a3psz", "Plot size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE), 
+              radioButtons("sc6a3fsz", "Font size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE) 
+            ), 
+            column( 
+              6, radioButtons("sc6a3asp", "Aspect ratio:", 
+                              choices = c("Square", "Fixed", "Free"), 
+                              selected = "Square", inline = TRUE), 
+              checkboxInput("sc6a3txt", "Show axis text", value = FALSE) 
+            ) 
+          ) 
+        ) 
+      )  # End of column (6 space) 
+    ),   # End of fluidRow (4 space) 
+    fluidRow( 
+      column( 
+        6, style="border-right: 2px solid black", h4("Gene expression 1"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc6a3inp1", "Gene name:", choices=NULL) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Gene expression to colour cells by", 
+                     content = c("Select gene to colour cells by gene expression", 
+                                 paste0("- Gene expression are coloured in a ", 
+                                        "White-Red colour scheme which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc6a3tog1", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc6a3tog1 % 2 == 1", 
+              radioButtons("sc6a3col1", "Colour:", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "White-Red"), 
+              radioButtons("sc6a3ord1", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Max-1st", inline = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc6a3oup1.ui"))), 
+        downloadButton("sc6a3oup1.pdf", "Download PDF"), 
+        downloadButton("sc6a3oup1.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc6a3oup1.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc6a3oup1.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      ), # End of column (6 space) 
+      column( 
+        6, h4("Gene expression 2"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc6a3inp2", "Gene name:", choices=NULL) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Gene expression to colour cells by", 
+                     content = c("Select gene to colour cells by gene expression", 
+                                 paste0("- Gene expression are coloured in a ", 
+                                        "White-Red colour scheme which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc6a3tog2", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc6a3tog2 % 2 == 1", 
+              radioButtons("sc6a3col2", "Colour:", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "White-Red"), 
+              radioButtons("sc6a3ord2", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Max-1st", inline = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc6a3oup2.ui"))), 
+        downloadButton("sc6a3oup2.pdf", "Download PDF"), 
+        downloadButton("sc6a3oup2.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc6a3oup2.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc6a3oup2.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  ),     # End of tab (2 space) 
+ 
+ ### Tab1.b2: Gene coexpression plot 
+ tabPanel( 
+   HTML("Gene coexpression"), 
+   h4("Coexpression of two genes on reduced dimensions"), 
+   "In this tab, users can visualise the coexpression of two genes ", 
+   "on low-dimensional representions.", 
+   br(),br(), 
+   fluidRow( 
+     column( 
+       3, h4("Dimension Reduction"), 
+       fluidRow( 
+         column( 
+           12, selectInput("sc6b2drX", "X-axis:", choices = sc6conf[dimred == TRUE]$UI, 
+                           selected = sc6def$dimred[1]), 
+           selectInput("sc6b2drY", "Y-axis:", choices = sc6conf[dimred == TRUE]$UI, 
+                       selected = sc6def$dimred[2])) 
+       ) 
+     ), # End of column (6 space) 
+     column( 
+       3, actionButton("sc6b2togL", "Toggle to subset cells"), 
+       conditionalPanel( 
+         condition = "input.sc6b2togL % 2 == 1", 
+         selectInput("sc6b2sub1", "Cell information to subset:", 
+                     choices = sc6conf[grp == TRUE]$UI, 
+                    selected = sc6def$grp1), 
+         uiOutput("sc6b2sub1.ui"), 
+         actionButton("sc6b2sub1all", "Select all groups", class = "btn btn-primary"), 
+         actionButton("sc6b2sub1non", "Deselect all groups", class = "btn btn-primary") 
+       ) 
+     ), # End of column (6 space) 
+     column( 
+       6, actionButton("sc6b2tog0", "Toggle graphics controls"), 
+       conditionalPanel( 
+         condition = "input.sc6b2tog0 % 2 == 1", 
+         fluidRow( 
+           column( 
+             6, sliderInput("sc6b2siz", "Point size:", 
+                            min = 0, max = 4, value = 1.25, step = 0.25), 
+             radioButtons("sc6b2psz", "Plot size:", 
+                          choices = c("Small", "Medium", "Large"), 
+                          selected = "Medium", inline = TRUE), 
+             radioButtons("sc6b2fsz", "Font size:", 
+                          choices = c("Small", "Medium", "Large"), 
+                          selected = "Medium", inline = TRUE) 
+           ), 
+           column( 
+             6, radioButtons("sc6b2asp", "Aspect ratio:", 
+                             choices = c("Square", "Fixed", "Free"), 
+                             selected = "Square", inline = TRUE), 
+             checkboxInput("sc6b2txt", "Show axis text", value = FALSE) 
+           ) 
+         ) 
+       ) 
+     )  # End of column (6 space) 
+   ),   # End of fluidRow (4 space) 
+   fluidRow( 
+     column( 
+       3, style="border-right: 2px solid black", h4("Gene Expression"), 
+       selectInput("sc6b2inp1", "Gene 1:", choices=NULL) %>%  
+         helper(type = "inline", size = "m", fade = TRUE, 
+               title = "Gene expression to colour cells by", 
+               content = c("Select gene to colour cells by gene expression", 
+                          paste0("- Gene expression are coloured in a ", 
+                                 "White-Red colour scheme which can be ", 
+                                 "changed in the plot controls"))), 
+       selectInput("sc6b2inp2", "Gene 2:", choices=NULL) %>% 
+         helper(type = "inline", size = "m", fade = TRUE, 
+                title = "Gene expression to colour cells by", 
+                content = c("Select gene to colour cells by gene expression", 
+                            paste0("- Gene expression are coloured in a ", 
+                                   "White-Blue colour scheme which can be ", 
+                                   "changed in the plot controls"))), 
+       actionButton("sc6b2tog1", "Toggle plot controls"), 
+       conditionalPanel( 
+         condition = "input.sc6b2tog1 % 2 == 1", 
+         radioButtons("sc6b2col1", "Colour:", 
+                      choices = c("Red (Gene1); Blue (Gene2)", 
+                                  "Orange (Gene1); Blue (Gene2)", 
+                                  "Red (Gene1); Green (Gene2)", 
+                                  "Green (Gene1); Blue (Gene2)"), 
+                      selected = "Red (Gene1); Blue (Gene2)"), 
+         radioButtons("sc6b2ord1", "Plot order:", 
+                      choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                      selected = "Max-1st", inline = TRUE) 
+       ) 
+     ), # End of column (6 space) 
+     column( 
+       6, style="border-right: 2px solid black", 
+       uiOutput("sc6b2oup1.ui"), 
+       downloadButton("sc6b2oup1.pdf", "Download PDF"), 
+       downloadButton("sc6b2oup1.png", "Download PNG"), br(), 
+       div(style="display:inline-block", 
+           numericInput("sc6b2oup1.h", "PDF / PNG height:", width = "138px", 
+                        min = 4, max = 20, value = 8, step = 0.5)), 
+       div(style="display:inline-block", 
+           numericInput("sc6b2oup1.w", "PDF / PNG width:", width = "138px", 
+                        min = 4, max = 20, value = 10, step = 0.5)) 
+     ), # End of column (6 space) 
+     column( 
+       3, uiOutput("sc6b2oup2.ui"), 
+       downloadButton("sc6b2oup2.pdf", "Download PDF"), 
+       downloadButton("sc6b2oup2.png", "Download PNG"), 
+       br(), h4("Cell numbers"), 
+       dataTableOutput("sc6b2.dt") 
+     )  # End of column (6 space) 
+   )    # End of fluidRow (4 space) 
+ ),     # End of tab (2 space) 
+ 
+ ### Tab1.c1: violinplot / boxplot 
+ tabPanel( 
+    HTML("Violinplot / Boxplot"),  
+   h4("Cell information / gene expression violin plot / box plot"), 
+   "In this tab, users can visualise the gene expression or continuous cell information ",  
+   "(e.g. Number of UMIs / module score) across groups of cells (e.g. libary / clusters).", 
+   br(),br(), 
+   fluidRow( 
+     column( 
+       3, style="border-right: 2px solid black", 
+       selectInput("sc6c1inp1", "Cell information (X-axis):", 
+                   choices = sc6conf[grp == TRUE]$UI, 
+                   selected = sc6def$grp1) %>%  
+         helper(type = "inline", size = "m", fade = TRUE, 
+                title = "Cell information to group cells by",  
+                content = c("Select categorical cell information to group cells by",  
+                            "- Single cells are grouped by this categorical covariate",  
+                            "- Plotted as the X-axis of the violin plot / box plot")),  
+       selectInput("sc6c1inp2", "Cell Info / Gene name (Y-axis):", choices=NULL) %>%  
+         helper(type = "inline", size = "m", fade = TRUE, 
+                title = "Cell Info / Gene to plot", 
+                content = c("Select cell info / gene to plot on Y-axis", 
+                            "- Can be continuous cell information (e.g. nUMIs / scores)", 
+                            "- Can also be gene expression")), 
+       radioButtons("sc6c1typ", "Plot type:", 
+                    choices = c("violin", "boxplot"), 
+                    selected = "violin", inline = TRUE), 
+       checkboxInput("sc6c1pts", "Show data points", value = FALSE), 
+       actionButton("sc6c1togL", "Toggle to subset cells"), 
+       conditionalPanel( 
+         condition = "input.sc6c1togL % 2 == 1", 
+         selectInput("sc6c1sub1", "Cell information to subset:", 
+                     choices = sc6conf[grp == TRUE]$UI, 
+                     selected = sc6def$grp1), 
+         uiOutput("sc6c1sub1.ui"), 
+         actionButton("sc6c1sub1all", "Select all groups", class = "btn btn-primary"), 
+         actionButton("sc6c1sub1non", "Deselect all groups", class = "btn btn-primary") 
+       ), br(), br(), 
+       actionButton("sc6c1tog", "Toggle graphics controls"), 
+       conditionalPanel( 
+         condition = "input.sc6c1tog % 2 == 1", 
+         sliderInput("sc6c1siz", "Data point size:",  
+                     min = 0, max = 4, value = 1.25, step = 0.25),  
+         radioButtons("sc6c1psz", "Plot size:", 
+                      choices = c("Small", "Medium", "Large"), 
+                      selected = "Medium", inline = TRUE), 
+         radioButtons("sc6c1fsz", "Font size:", 
+                      choices = c("Small", "Medium", "Large"), 
+                      selected = "Medium", inline = TRUE)) 
+     ), # End of column (6 space) 
+     column(9, uiOutput("sc6c1oup.ui"),  
+            downloadButton("sc6c1oup.pdf", "Download PDF"),  
+            downloadButton("sc6c1oup.png", "Download PNG"), br(), 
+            div(style="display:inline-block", 
+                numericInput("sc6c1oup.h", "PDF / PNG height:", width = "138px", 
+                             min = 4, max = 20, value = 8, step = 0.5)), 
+            div(style="display:inline-block", 
+                numericInput("sc6c1oup.w", "PDF / PNG width:", width = "138px", 
+                             min = 4, max = 20, value = 10, step = 0.5)) 
+     )  # End of column (6 space) 
+   )    # End of fluidRow (4 space) 
+ ),     # End of tab (2 space) 
+ 
+### Tab1.c2: Proportion plot 
+tabPanel( 
+  HTML("Proportion plot"), 
+  h4("Proportion / cell numbers across different cell information"), 
+  "In this tab, users can visualise the composition of single cells based on one discrete ", 
+  "cell information across another discrete cell information. ",  
+  "Usage examples include the library or cellcycle composition across clusters.", 
+  br(),br(), 
+  fluidRow( 
+    column( 
+      3, style="border-right: 2px solid black", 
+      selectInput("sc6c2inp1", "Cell information to plot (X-axis):", 
+                  choices = sc6conf[grp == TRUE]$UI, 
+                  selected = sc6def$grp2) %>%  
+        helper(type = "inline", size = "m", fade = TRUE, 
+               title = "Cell information to plot cells by",  
+               content = c("Select categorical cell information to plot cells by", 
+                           "- Plotted as the X-axis of the proportion plot")), 
+      selectInput("sc6c2inp2", "Cell information to group / colour by:", 
+                  choices = sc6conf[grp == TRUE]$UI, 
+                  selected = sc6def$grp1) %>%  
+        helper(type = "inline", size = "m", fade = TRUE, 
+               title = "Cell information to group / colour cells by", 
+               content = c("Select categorical cell information to group / colour cells by", 
+                           "- Proportion / cell numbers are shown in different colours")), 
+      radioButtons("sc6c2typ", "Plot value:", 
+                   choices = c("Proportion", "CellNumbers"), 
+                   selected = "Proportion", inline = TRUE), 
+      checkboxInput("sc6c2flp", "Flip X/Y", value = FALSE), 
+      actionButton("sc6c2togL", "Toggle to subset cells"), 
+      conditionalPanel( 
+        condition = "input.sc6c2togL % 2 == 1", 
+        selectInput("sc6c2sub1", "Cell information to subset:", 
+                    choices = sc6conf[grp == TRUE]$UI, 
+                    selected = sc6def$grp1), 
+        uiOutput("sc6c2sub1.ui"), 
+        actionButton("sc6c2sub1all", "Select all groups", class = "btn btn-primary"), 
+        actionButton("sc6c2sub1non", "Deselect all groups", class = "btn btn-primary") 
+      ), br(), br(), 
+      actionButton("sc6c2tog", "Toggle graphics controls"), 
+      conditionalPanel( 
+        condition = "input.sc6c2tog % 2 == 1", 
+        radioButtons("sc6c2psz", "Plot size:", 
+                     choices = c("Small", "Medium", "Large"), 
+                     selected = "Medium", inline = TRUE), 
+        radioButtons("sc6c2fsz", "Font size:", 
+                     choices = c("Small", "Medium", "Large"), 
+                     selected = "Medium", inline = TRUE)) 
+    ), # End of column (6 space) 
+    column(9, uiOutput("sc6c2oup.ui"),  
+           downloadButton("sc6c2oup.pdf", "Download PDF"),  
+           downloadButton("sc6c2oup.png", "Download PNG"), br(), 
+           div(style="display:inline-block", 
+               numericInput("sc6c2oup.h", "PDF / PNG height:", width = "138px", 
+                            min = 4, max = 20, value = 8, step = 0.5)), 
+           div(style="display:inline-block", 
+               numericInput("sc6c2oup.w", "PDF / PNG width:", width = "138px", 
+                            min = 4, max = 20, value = 10, step = 0.5)) 
+    )  # End of column (6 space) 
+  )    # End of fluidRow (4 space) 
+),     # End of tab (2 space) 
+ 
+  ### Tab1.d1: Multiple gene expr 
+  tabPanel( 
+    HTML("Bubbleplot / Heatmap"), 
+    h4("Gene expression bubbleplot / heatmap"), 
+    "In this tab, users can visualise the gene expression patterns of ", 
+    "multiple genes grouped by categorical cell information (e.g. library / cluster).", br(), 
+    "The normalised expression are averaged, log-transformed and then plotted.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, style="border-right: 2px solid black", 
+        textAreaInput("sc6d1inp", HTML("List of gene names <br /> 
+                                          (Max 50 genes, separated <br /> 
+                                           by , or ; or newline):"), 
+                      height = "200px", 
+                      value = paste0(sc6def$genes, collapse = ", ")) %>% 
+          helper(type = "inline", size = "m", fade = TRUE, 
+                 title = "List of genes to plot on bubbleplot / heatmap", 
+                 content = c("Input genes to plot", 
+                             "- Maximum 50 genes (due to ploting space limitations)", 
+                             "- Genes should be separated by comma, semicolon or newline")), 
+        selectInput("sc6d1grp", "Group by:", 
+                    choices = sc6conf[grp == TRUE]$UI, 
+                    selected = sc6conf[grp == TRUE]$UI[1]) %>% 
+          helper(type = "inline", size = "m", fade = TRUE, 
+                 title = "Cell information to group cells by", 
+                 content = c("Select categorical cell information to group cells by", 
+                             "- Single cells are grouped by this categorical covariate", 
+                             "- Plotted as the X-axis of the bubbleplot / heatmap")), 
+        radioButtons("sc6d1plt", "Plot type:", 
+                     choices = c("Bubbleplot", "Heatmap"), 
+                     selected = "Bubbleplot", inline = TRUE), 
+        checkboxInput("sc6d1scl", "Scale gene expression", value = TRUE), 
+        checkboxInput("sc6d1row", "Cluster rows (genes)", value = TRUE), 
+        checkboxInput("sc6d1col", "Cluster columns (samples)", value = FALSE), 
+        br(), 
+        actionButton("sc6d1togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc6d1togL % 2 == 1", 
+          selectInput("sc6d1sub1", "Cell information to subset:", 
+                      choices = sc6conf[grp == TRUE]$UI, 
+                      selected = sc6def$grp1), 
+          uiOutput("sc6d1sub1.ui"), 
+          actionButton("sc6d1sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc6d1sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ), br(), br(), 
+        actionButton("sc6d1tog", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc6d1tog % 2 == 1", 
+          radioButtons("sc6d1cols", "Colour scheme:", 
+                       choices = c("White-Red", "Blue-Yellow-Red", 
+                                   "Yellow-Green-Purple"), 
+                       selected = "Blue-Yellow-Red"), 
+          radioButtons("sc6d1psz", "Plot size:", 
+                       choices = c("Small", "Medium", "Large"), 
+                       selected = "Medium", inline = TRUE), 
+          radioButtons("sc6d1fsz", "Font size:", 
+                       choices = c("Small", "Medium", "Large"), 
+                       selected = "Medium", inline = TRUE)) 
+      ), # End of column (6 space) 
+      column(9, h4(htmlOutput("sc6d1oupTxt")), 
+             uiOutput("sc6d1oup.ui"), 
+             downloadButton("sc6d1oup.pdf", "Download PDF"), 
+             downloadButton("sc6d1oup.png", "Download PNG"), br(), 
+             div(style="display:inline-block", 
+                 numericInput("sc6d1oup.h", "PDF / PNG height:", width = "138px", 
+                              min = 4, max = 20, value = 10, step = 0.5)), 
+             div(style="display:inline-block", 
+                 numericInput("sc6d1oup.w", "PDF / PNG width:", width = "138px", 
+                              min = 4, max = 20, value = 10, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  )      # End of tab (2 space) 
+   ), 
+
+navbarMenu("Stromal Immune RNA",### Tab1.a1: cellInfo vs geneExpr on dimRed 
+  tabPanel( 
+    HTML("CellInfo vs GeneExpr"), 
+    h4("Cell information vs gene expression on reduced dimensions"), 
+    "In this tab, users can visualise both cell information and gene ",  
+    "expression side-by-side on low-dimensional representions.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, h4("Dimension Reduction"), 
+        fluidRow( 
+          column( 
+            12, selectInput("sc7a1drX", "X-axis:", choices = sc7conf[dimred == TRUE]$UI, 
+                           selected = sc7def$dimred[1]), 
+            selectInput("sc7a1drY", "Y-axis:", choices = sc7conf[dimred == TRUE]$UI, 
+                        selected = sc7def$dimred[2])) 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        3, actionButton("sc7a1togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc7a1togL % 2 == 1", 
+          selectInput("sc7a1sub1", "Cell information to subset:", 
+                      choices = sc7conf[grp == TRUE]$UI, 
+                      selected = sc7def$grp1), 
+          uiOutput("sc7a1sub1.ui"), 
+          actionButton("sc7a1sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc7a1sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, actionButton("sc7a1tog0", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc7a1tog0 % 2 == 1", 
+          fluidRow( 
+            column( 
+              6, sliderInput("sc7a1siz", "Point size:", 
+                             min = 0, max = 4, value = 1.25, step = 0.25), 
+              radioButtons("sc7a1psz", "Plot size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE), 
+              radioButtons("sc7a1fsz", "Font size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE) 
+            ), 
+            column( 
+              6, radioButtons("sc7a1asp", "Aspect ratio:", 
+                              choices = c("Square", "Fixed", "Free"), 
+                              selected = "Square", inline = TRUE), 
+              checkboxInput("sc7a1txt", "Show axis text", value = FALSE) 
+            ) 
+          ) 
+        ) 
+      )  # End of column (6 space) 
+    ),   # End of fluidRow (4 space) 
+    fluidRow( 
+      column( 
+        6, style="border-right: 2px solid black", h4("Cell information"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc7a1inp1", "Cell information:", 
+                           choices = sc7conf$UI, 
+                           selected = sc7def$meta1) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Cell information to colour cells by", 
+                     content = c("Select cell information to colour cells", 
+                                 "- Categorical covariates have a fixed colour palette", 
+                                 paste0("- Continuous covariates are coloured in a ",  
+                                        "Blue-Yellow-Red colour scheme, which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc7a1tog1", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc7a1tog1 % 2 == 1", 
+              radioButtons("sc7a1col1", "Colour (Continuous data):", 
+                           choices = c("White-Red","Blue-Yellow-Red","Yellow-Green-Purple"), 
+                           selected = "Blue-Yellow-Red"), 
+              radioButtons("sc7a1ord1", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Original", inline = TRUE), 
+              checkboxInput("sc7a1lab1", "Show cell info labels", value = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc7a1oup1.ui"))), 
+        downloadButton("sc7a1oup1.pdf", "Download PDF"), 
+        downloadButton("sc7a1oup1.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc7a1oup1.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc7a1oup1.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)), br(), 
+        actionButton("sc7a1tog9", "Toggle to show cell numbers / statistics"), 
+        conditionalPanel( 
+          condition = "input.sc7a1tog9 % 2 == 1", 
+          h4("Cell numbers / statistics"), 
+          radioButtons("sc7a1splt", "Split continuous cell info into:", 
+                       choices = c("Quartile", "Decile"), 
+                       selected = "Decile", inline = TRUE), 
+          dataTableOutput("sc7a1.dt") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, h4("Gene expression"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc7a1inp2", "Gene name:", choices=NULL) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Gene expression to colour cells by", 
+                     content = c("Select gene to colour cells by gene expression", 
+                                 paste0("- Gene expression are coloured in a ", 
+                                        "White-Red colour scheme which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc7a1tog2", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc7a1tog2 % 2 == 1", 
+              radioButtons("sc7a1col2", "Colour:", 
+                           choices = c("White-Red","Blue-Yellow-Red","Yellow-Green-Purple"), 
+                           selected = "White-Red"), 
+              radioButtons("sc7a1ord2", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Max-1st", inline = TRUE) 
+            ) 
+          ) 
+        ) , 
+        fluidRow(column(12, uiOutput("sc7a1oup2.ui"))), 
+        downloadButton("sc7a1oup2.pdf", "Download PDF"), 
+        downloadButton("sc7a1oup2.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc7a1oup2.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc7a1oup2.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  ),     # End of tab (2 space) 
+ 
+  ### Tab1.a2: cellInfo vs cellInfo on dimRed 
+  tabPanel( 
+    HTML("CellInfo vs CellInfo"), 
+    h4("Cell information vs cell information on dimension reduction"), 
+    "In this tab, users can visualise two cell informations side-by-side ", 
+    "on low-dimensional representions.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, h4("Dimension Reduction"), 
+        fluidRow( 
+          column( 
+            12, selectInput("sc7a2drX", "X-axis:", choices = sc7conf[dimred == TRUE]$UI, 
+                           selected = sc7def$dimred[1]), 
+            selectInput("sc7a2drY", "Y-axis:", choices = sc7conf[dimred == TRUE]$UI, 
+                        selected = sc7def$dimred[2])) 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        3, actionButton("sc7a2togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc7a2togL % 2 == 1", 
+          selectInput("sc7a2sub1", "Cell information to subset:", 
+                      choices = sc7conf[grp == TRUE]$UI, 
+                      selected = sc7def$grp1), 
+          uiOutput("sc7a2sub1.ui"), 
+          actionButton("sc7a2sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc7a2sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, actionButton("sc7a2tog0", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc7a2tog0 % 2 == 1", 
+          fluidRow( 
+            column( 
+              6, sliderInput("sc7a2siz", "Point size:", 
+                             min = 0, max = 4, value = 1.25, step = 0.25), 
+              radioButtons("sc7a2psz", "Plot size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE), 
+              radioButtons("sc7a2fsz", "Font size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE) 
+            ), 
+            column( 
+              6, radioButtons("sc7a2asp", "Aspect ratio:", 
+                              choices = c("Square", "Fixed", "Free"), 
+                              selected = "Square", inline = TRUE), 
+              checkboxInput("sc7a2txt", "Show axis text", value = FALSE) 
+            ) 
+          ) 
+        ) 
+      )  # End of column (6 space) 
+    ),   # End of fluidRow (4 space) 
+    fluidRow( 
+      column( 
+        6, style="border-right: 2px solid black", h4("Cell information 1"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc7a2inp1", "Cell information:", 
+                           choices = sc7conf$UI, 
+                           selected = sc7def$meta1) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Cell information to colour cells by", 
+                     content = c("Select cell information to colour cells", 
+                                 "- Categorical covariates have a fixed colour palette", 
+                                 paste0("- Continuous covariates are coloured in a ",  
+                                        "Blue-Yellow-Red colour scheme, which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc7a2tog1", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc7a2tog1 % 2 == 1", 
+              radioButtons("sc7a2col1", "Colour (Continuous data):", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "Blue-Yellow-Red"), 
+              radioButtons("sc7a2ord1", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Original", inline = TRUE), 
+              checkboxInput("sc7a2lab1", "Show cell info labels", value = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc7a2oup1.ui"))), 
+        downloadButton("sc7a2oup1.pdf", "Download PDF"), 
+        downloadButton("sc7a2oup1.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc7a2oup1.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc7a2oup1.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      ), # End of column (6 space) 
+      column( 
+        6, h4("Cell information 2"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc7a2inp2", "Cell information:", 
+                           choices = sc7conf$UI, 
+                           selected = sc7def$meta2) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Cell information to colour cells by", 
+                     content = c("Select cell information to colour cells", 
+                                 "- Categorical covariates have a fixed colour palette", 
+                                 paste0("- Continuous covariates are coloured in a ",  
+                                        "Blue-Yellow-Red colour scheme, which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc7a2tog2", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc7a2tog2 % 2 == 1", 
+              radioButtons("sc7a2col2", "Colour (Continuous data):", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "Blue-Yellow-Red"), 
+              radioButtons("sc7a2ord2", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Original", inline = TRUE), 
+              checkboxInput("sc7a2lab2", "Show cell info labels", value = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc7a2oup2.ui"))), 
+        downloadButton("sc7a2oup2.pdf", "Download PDF"), 
+        downloadButton("sc7a2oup2.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc7a2oup2.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc7a2oup2.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  ),     # End of tab (2 space) 
+   
+  ### Tab1.a3: geneExpr vs geneExpr on dimRed 
+  tabPanel( 
+    HTML("GeneExpr vs GeneExpr"), 
+    h4("Gene expression vs gene expression on dimension reduction"), 
+    "In this tab, users can visualise two gene expressions side-by-side ", 
+    "on low-dimensional representions.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, h4("Dimension Reduction"), 
+        fluidRow( 
+          column( 
+            12, selectInput("sc7a3drX", "X-axis:", choices = sc7conf[dimred == TRUE]$UI, 
+                           selected = sc7def$dimred[1]), 
+            selectInput("sc7a3drY", "Y-axis:", choices = sc7conf[dimred == TRUE]$UI, 
+                        selected = sc7def$dimred[2])) 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        3, actionButton("sc7a3togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc7a3togL % 2 == 1", 
+          selectInput("sc7a3sub1", "Cell information to subset:", 
+                      choices = sc7conf[grp == TRUE]$UI, 
+                      selected = sc7def$grp1), 
+          uiOutput("sc7a3sub1.ui"), 
+          actionButton("sc7a3sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc7a3sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, actionButton("sc7a3tog0", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc7a3tog0 % 2 == 1", 
+          fluidRow( 
+            column( 
+              6, sliderInput("sc7a3siz", "Point size:", 
+                             min = 0, max = 4, value = 1.25, step = 0.25), 
+              radioButtons("sc7a3psz", "Plot size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE), 
+              radioButtons("sc7a3fsz", "Font size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE) 
+            ), 
+            column( 
+              6, radioButtons("sc7a3asp", "Aspect ratio:", 
+                              choices = c("Square", "Fixed", "Free"), 
+                              selected = "Square", inline = TRUE), 
+              checkboxInput("sc7a3txt", "Show axis text", value = FALSE) 
+            ) 
+          ) 
+        ) 
+      )  # End of column (6 space) 
+    ),   # End of fluidRow (4 space) 
+    fluidRow( 
+      column( 
+        6, style="border-right: 2px solid black", h4("Gene expression 1"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc7a3inp1", "Gene name:", choices=NULL) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Gene expression to colour cells by", 
+                     content = c("Select gene to colour cells by gene expression", 
+                                 paste0("- Gene expression are coloured in a ", 
+                                        "White-Red colour scheme which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc7a3tog1", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc7a3tog1 % 2 == 1", 
+              radioButtons("sc7a3col1", "Colour:", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "White-Red"), 
+              radioButtons("sc7a3ord1", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Max-1st", inline = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc7a3oup1.ui"))), 
+        downloadButton("sc7a3oup1.pdf", "Download PDF"), 
+        downloadButton("sc7a3oup1.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc7a3oup1.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc7a3oup1.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      ), # End of column (6 space) 
+      column( 
+        6, h4("Gene expression 2"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc7a3inp2", "Gene name:", choices=NULL) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Gene expression to colour cells by", 
+                     content = c("Select gene to colour cells by gene expression", 
+                                 paste0("- Gene expression are coloured in a ", 
+                                        "White-Red colour scheme which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc7a3tog2", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc7a3tog2 % 2 == 1", 
+              radioButtons("sc7a3col2", "Colour:", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "White-Red"), 
+              radioButtons("sc7a3ord2", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Max-1st", inline = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc7a3oup2.ui"))), 
+        downloadButton("sc7a3oup2.pdf", "Download PDF"), 
+        downloadButton("sc7a3oup2.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc7a3oup2.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc7a3oup2.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  ),     # End of tab (2 space) 
+ 
+ ### Tab1.b2: Gene coexpression plot 
+ tabPanel( 
+   HTML("Gene coexpression"), 
+   h4("Coexpression of two genes on reduced dimensions"), 
+   "In this tab, users can visualise the coexpression of two genes ", 
+   "on low-dimensional representions.", 
+   br(),br(), 
+   fluidRow( 
+     column( 
+       3, h4("Dimension Reduction"), 
+       fluidRow( 
+         column( 
+           12, selectInput("sc7b2drX", "X-axis:", choices = sc7conf[dimred == TRUE]$UI, 
+                           selected = sc7def$dimred[1]), 
+           selectInput("sc7b2drY", "Y-axis:", choices = sc7conf[dimred == TRUE]$UI, 
+                       selected = sc7def$dimred[2])) 
+       ) 
+     ), # End of column (6 space) 
+     column( 
+       3, actionButton("sc7b2togL", "Toggle to subset cells"), 
+       conditionalPanel( 
+         condition = "input.sc7b2togL % 2 == 1", 
+         selectInput("sc7b2sub1", "Cell information to subset:", 
+                     choices = sc7conf[grp == TRUE]$UI, 
+                    selected = sc7def$grp1), 
+         uiOutput("sc7b2sub1.ui"), 
+         actionButton("sc7b2sub1all", "Select all groups", class = "btn btn-primary"), 
+         actionButton("sc7b2sub1non", "Deselect all groups", class = "btn btn-primary") 
+       ) 
+     ), # End of column (6 space) 
+     column( 
+       6, actionButton("sc7b2tog0", "Toggle graphics controls"), 
+       conditionalPanel( 
+         condition = "input.sc7b2tog0 % 2 == 1", 
+         fluidRow( 
+           column( 
+             6, sliderInput("sc7b2siz", "Point size:", 
+                            min = 0, max = 4, value = 1.25, step = 0.25), 
+             radioButtons("sc7b2psz", "Plot size:", 
+                          choices = c("Small", "Medium", "Large"), 
+                          selected = "Medium", inline = TRUE), 
+             radioButtons("sc7b2fsz", "Font size:", 
+                          choices = c("Small", "Medium", "Large"), 
+                          selected = "Medium", inline = TRUE) 
+           ), 
+           column( 
+             6, radioButtons("sc7b2asp", "Aspect ratio:", 
+                             choices = c("Square", "Fixed", "Free"), 
+                             selected = "Square", inline = TRUE), 
+             checkboxInput("sc7b2txt", "Show axis text", value = FALSE) 
+           ) 
+         ) 
+       ) 
+     )  # End of column (6 space) 
+   ),   # End of fluidRow (4 space) 
+   fluidRow( 
+     column( 
+       3, style="border-right: 2px solid black", h4("Gene Expression"), 
+       selectInput("sc7b2inp1", "Gene 1:", choices=NULL) %>%  
+         helper(type = "inline", size = "m", fade = TRUE, 
+               title = "Gene expression to colour cells by", 
+               content = c("Select gene to colour cells by gene expression", 
+                          paste0("- Gene expression are coloured in a ", 
+                                 "White-Red colour scheme which can be ", 
+                                 "changed in the plot controls"))), 
+       selectInput("sc7b2inp2", "Gene 2:", choices=NULL) %>% 
+         helper(type = "inline", size = "m", fade = TRUE, 
+                title = "Gene expression to colour cells by", 
+                content = c("Select gene to colour cells by gene expression", 
+                            paste0("- Gene expression are coloured in a ", 
+                                   "White-Blue colour scheme which can be ", 
+                                   "changed in the plot controls"))), 
+       actionButton("sc7b2tog1", "Toggle plot controls"), 
+       conditionalPanel( 
+         condition = "input.sc7b2tog1 % 2 == 1", 
+         radioButtons("sc7b2col1", "Colour:", 
+                      choices = c("Red (Gene1); Blue (Gene2)", 
+                                  "Orange (Gene1); Blue (Gene2)", 
+                                  "Red (Gene1); Green (Gene2)", 
+                                  "Green (Gene1); Blue (Gene2)"), 
+                      selected = "Red (Gene1); Blue (Gene2)"), 
+         radioButtons("sc7b2ord1", "Plot order:", 
+                      choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                      selected = "Max-1st", inline = TRUE) 
+       ) 
+     ), # End of column (6 space) 
+     column( 
+       6, style="border-right: 2px solid black", 
+       uiOutput("sc7b2oup1.ui"), 
+       downloadButton("sc7b2oup1.pdf", "Download PDF"), 
+       downloadButton("sc7b2oup1.png", "Download PNG"), br(), 
+       div(style="display:inline-block", 
+           numericInput("sc7b2oup1.h", "PDF / PNG height:", width = "138px", 
+                        min = 4, max = 20, value = 8, step = 0.5)), 
+       div(style="display:inline-block", 
+           numericInput("sc7b2oup1.w", "PDF / PNG width:", width = "138px", 
+                        min = 4, max = 20, value = 10, step = 0.5)) 
+     ), # End of column (6 space) 
+     column( 
+       3, uiOutput("sc7b2oup2.ui"), 
+       downloadButton("sc7b2oup2.pdf", "Download PDF"), 
+       downloadButton("sc7b2oup2.png", "Download PNG"), 
+       br(), h4("Cell numbers"), 
+       dataTableOutput("sc7b2.dt") 
+     )  # End of column (6 space) 
+   )    # End of fluidRow (4 space) 
+ ),     # End of tab (2 space) 
+ 
+ ### Tab1.c1: violinplot / boxplot 
+ tabPanel( 
+    HTML("Violinplot / Boxplot"),  
+   h4("Cell information / gene expression violin plot / box plot"), 
+   "In this tab, users can visualise the gene expression or continuous cell information ",  
+   "(e.g. Number of UMIs / module score) across groups of cells (e.g. libary / clusters).", 
+   br(),br(), 
+   fluidRow( 
+     column( 
+       3, style="border-right: 2px solid black", 
+       selectInput("sc7c1inp1", "Cell information (X-axis):", 
+                   choices = sc7conf[grp == TRUE]$UI, 
+                   selected = sc7def$grp1) %>%  
+         helper(type = "inline", size = "m", fade = TRUE, 
+                title = "Cell information to group cells by",  
+                content = c("Select categorical cell information to group cells by",  
+                            "- Single cells are grouped by this categorical covariate",  
+                            "- Plotted as the X-axis of the violin plot / box plot")),  
+       selectInput("sc7c1inp2", "Cell Info / Gene name (Y-axis):", choices=NULL) %>%  
+         helper(type = "inline", size = "m", fade = TRUE, 
+                title = "Cell Info / Gene to plot", 
+                content = c("Select cell info / gene to plot on Y-axis", 
+                            "- Can be continuous cell information (e.g. nUMIs / scores)", 
+                            "- Can also be gene expression")), 
+       radioButtons("sc7c1typ", "Plot type:", 
+                    choices = c("violin", "boxplot"), 
+                    selected = "violin", inline = TRUE), 
+       checkboxInput("sc7c1pts", "Show data points", value = FALSE), 
+       actionButton("sc7c1togL", "Toggle to subset cells"), 
+       conditionalPanel( 
+         condition = "input.sc7c1togL % 2 == 1", 
+         selectInput("sc7c1sub1", "Cell information to subset:", 
+                     choices = sc7conf[grp == TRUE]$UI, 
+                     selected = sc7def$grp1), 
+         uiOutput("sc7c1sub1.ui"), 
+         actionButton("sc7c1sub1all", "Select all groups", class = "btn btn-primary"), 
+         actionButton("sc7c1sub1non", "Deselect all groups", class = "btn btn-primary") 
+       ), br(), br(), 
+       actionButton("sc7c1tog", "Toggle graphics controls"), 
+       conditionalPanel( 
+         condition = "input.sc7c1tog % 2 == 1", 
+         sliderInput("sc7c1siz", "Data point size:",  
+                     min = 0, max = 4, value = 1.25, step = 0.25),  
+         radioButtons("sc7c1psz", "Plot size:", 
+                      choices = c("Small", "Medium", "Large"), 
+                      selected = "Medium", inline = TRUE), 
+         radioButtons("sc7c1fsz", "Font size:", 
+                      choices = c("Small", "Medium", "Large"), 
+                      selected = "Medium", inline = TRUE)) 
+     ), # End of column (6 space) 
+     column(9, uiOutput("sc7c1oup.ui"),  
+            downloadButton("sc7c1oup.pdf", "Download PDF"),  
+            downloadButton("sc7c1oup.png", "Download PNG"), br(), 
+            div(style="display:inline-block", 
+                numericInput("sc7c1oup.h", "PDF / PNG height:", width = "138px", 
+                             min = 4, max = 20, value = 8, step = 0.5)), 
+            div(style="display:inline-block", 
+                numericInput("sc7c1oup.w", "PDF / PNG width:", width = "138px", 
+                             min = 4, max = 20, value = 10, step = 0.5)) 
+     )  # End of column (6 space) 
+   )    # End of fluidRow (4 space) 
+ ),     # End of tab (2 space) 
+ 
+### Tab1.c2: Proportion plot 
+tabPanel( 
+  HTML("Proportion plot"), 
+  h4("Proportion / cell numbers across different cell information"), 
+  "In this tab, users can visualise the composition of single cells based on one discrete ", 
+  "cell information across another discrete cell information. ",  
+  "Usage examples include the library or cellcycle composition across clusters.", 
+  br(),br(), 
+  fluidRow( 
+    column( 
+      3, style="border-right: 2px solid black", 
+      selectInput("sc7c2inp1", "Cell information to plot (X-axis):", 
+                  choices = sc7conf[grp == TRUE]$UI, 
+                  selected = sc7def$grp2) %>%  
+        helper(type = "inline", size = "m", fade = TRUE, 
+               title = "Cell information to plot cells by",  
+               content = c("Select categorical cell information to plot cells by", 
+                           "- Plotted as the X-axis of the proportion plot")), 
+      selectInput("sc7c2inp2", "Cell information to group / colour by:", 
+                  choices = sc7conf[grp == TRUE]$UI, 
+                  selected = sc7def$grp1) %>%  
+        helper(type = "inline", size = "m", fade = TRUE, 
+               title = "Cell information to group / colour cells by", 
+               content = c("Select categorical cell information to group / colour cells by", 
+                           "- Proportion / cell numbers are shown in different colours")), 
+      radioButtons("sc7c2typ", "Plot value:", 
+                   choices = c("Proportion", "CellNumbers"), 
+                   selected = "Proportion", inline = TRUE), 
+      checkboxInput("sc7c2flp", "Flip X/Y", value = FALSE), 
+      actionButton("sc7c2togL", "Toggle to subset cells"), 
+      conditionalPanel( 
+        condition = "input.sc7c2togL % 2 == 1", 
+        selectInput("sc7c2sub1", "Cell information to subset:", 
+                    choices = sc7conf[grp == TRUE]$UI, 
+                    selected = sc7def$grp1), 
+        uiOutput("sc7c2sub1.ui"), 
+        actionButton("sc7c2sub1all", "Select all groups", class = "btn btn-primary"), 
+        actionButton("sc7c2sub1non", "Deselect all groups", class = "btn btn-primary") 
+      ), br(), br(), 
+      actionButton("sc7c2tog", "Toggle graphics controls"), 
+      conditionalPanel( 
+        condition = "input.sc7c2tog % 2 == 1", 
+        radioButtons("sc7c2psz", "Plot size:", 
+                     choices = c("Small", "Medium", "Large"), 
+                     selected = "Medium", inline = TRUE), 
+        radioButtons("sc7c2fsz", "Font size:", 
+                     choices = c("Small", "Medium", "Large"), 
+                     selected = "Medium", inline = TRUE)) 
+    ), # End of column (6 space) 
+    column(9, uiOutput("sc7c2oup.ui"),  
+           downloadButton("sc7c2oup.pdf", "Download PDF"),  
+           downloadButton("sc7c2oup.png", "Download PNG"), br(), 
+           div(style="display:inline-block", 
+               numericInput("sc7c2oup.h", "PDF / PNG height:", width = "138px", 
+                            min = 4, max = 20, value = 8, step = 0.5)), 
+           div(style="display:inline-block", 
+               numericInput("sc7c2oup.w", "PDF / PNG width:", width = "138px", 
+                            min = 4, max = 20, value = 10, step = 0.5)) 
+    )  # End of column (6 space) 
+  )    # End of fluidRow (4 space) 
+),     # End of tab (2 space) 
+ 
+  ### Tab1.d1: Multiple gene expr 
+  tabPanel( 
+    HTML("Bubbleplot / Heatmap"), 
+    h4("Gene expression bubbleplot / heatmap"), 
+    "In this tab, users can visualise the gene expression patterns of ", 
+    "multiple genes grouped by categorical cell information (e.g. library / cluster).", br(), 
+    "The normalised expression are averaged, log-transformed and then plotted.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, style="border-right: 2px solid black", 
+        textAreaInput("sc7d1inp", HTML("List of gene names <br /> 
+                                          (Max 50 genes, separated <br /> 
+                                           by , or ; or newline):"), 
+                      height = "200px", 
+                      value = paste0(sc7def$genes, collapse = ", ")) %>% 
+          helper(type = "inline", size = "m", fade = TRUE, 
+                 title = "List of genes to plot on bubbleplot / heatmap", 
+                 content = c("Input genes to plot", 
+                             "- Maximum 50 genes (due to ploting space limitations)", 
+                             "- Genes should be separated by comma, semicolon or newline")), 
+        selectInput("sc7d1grp", "Group by:", 
+                    choices = sc7conf[grp == TRUE]$UI, 
+                    selected = sc7conf[grp == TRUE]$UI[1]) %>% 
+          helper(type = "inline", size = "m", fade = TRUE, 
+                 title = "Cell information to group cells by", 
+                 content = c("Select categorical cell information to group cells by", 
+                             "- Single cells are grouped by this categorical covariate", 
+                             "- Plotted as the X-axis of the bubbleplot / heatmap")), 
+        radioButtons("sc7d1plt", "Plot type:", 
+                     choices = c("Bubbleplot", "Heatmap"), 
+                     selected = "Bubbleplot", inline = TRUE), 
+        checkboxInput("sc7d1scl", "Scale gene expression", value = TRUE), 
+        checkboxInput("sc7d1row", "Cluster rows (genes)", value = TRUE), 
+        checkboxInput("sc7d1col", "Cluster columns (samples)", value = FALSE), 
+        br(), 
+        actionButton("sc7d1togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc7d1togL % 2 == 1", 
+          selectInput("sc7d1sub1", "Cell information to subset:", 
+                      choices = sc7conf[grp == TRUE]$UI, 
+                      selected = sc7def$grp1), 
+          uiOutput("sc7d1sub1.ui"), 
+          actionButton("sc7d1sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc7d1sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ), br(), br(), 
+        actionButton("sc7d1tog", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc7d1tog % 2 == 1", 
+          radioButtons("sc7d1cols", "Colour scheme:", 
+                       choices = c("White-Red", "Blue-Yellow-Red", 
+                                   "Yellow-Green-Purple"), 
+                       selected = "Blue-Yellow-Red"), 
+          radioButtons("sc7d1psz", "Plot size:", 
+                       choices = c("Small", "Medium", "Large"), 
+                       selected = "Medium", inline = TRUE), 
+          radioButtons("sc7d1fsz", "Font size:", 
+                       choices = c("Small", "Medium", "Large"), 
+                       selected = "Medium", inline = TRUE)) 
+      ), # End of column (6 space) 
+      column(9, h4(htmlOutput("sc7d1oupTxt")), 
+             uiOutput("sc7d1oup.ui"), 
+             downloadButton("sc7d1oup.pdf", "Download PDF"), 
+             downloadButton("sc7d1oup.png", "Download PNG"), br(), 
+             div(style="display:inline-block", 
+                 numericInput("sc7d1oup.h", "PDF / PNG height:", width = "138px", 
+                              min = 4, max = 20, value = 10, step = 0.5)), 
+             div(style="display:inline-block", 
+                 numericInput("sc7d1oup.w", "PDF / PNG width:", width = "138px", 
+                              min = 4, max = 20, value = 10, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  )      # End of tab (2 space) 
+   ), 
+
+navbarMenu("Stromal Immune Protein",### Tab1.a1: cellInfo vs geneExpr on dimRed 
+  tabPanel( 
+    HTML("CellInfo vs GeneExpr"), 
+    h4("Cell information vs gene expression on reduced dimensions"), 
+    "In this tab, users can visualise both cell information and gene ",  
+    "expression side-by-side on low-dimensional representions.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, h4("Dimension Reduction"), 
+        fluidRow( 
+          column( 
+            12, selectInput("sc8a1drX", "X-axis:", choices = sc8conf[dimred == TRUE]$UI, 
+                           selected = sc8def$dimred[1]), 
+            selectInput("sc8a1drY", "Y-axis:", choices = sc8conf[dimred == TRUE]$UI, 
+                        selected = sc8def$dimred[2])) 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        3, actionButton("sc8a1togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc8a1togL % 2 == 1", 
+          selectInput("sc8a1sub1", "Cell information to subset:", 
+                      choices = sc8conf[grp == TRUE]$UI, 
+                      selected = sc8def$grp1), 
+          uiOutput("sc8a1sub1.ui"), 
+          actionButton("sc8a1sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc8a1sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, actionButton("sc8a1tog0", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc8a1tog0 % 2 == 1", 
+          fluidRow( 
+            column( 
+              6, sliderInput("sc8a1siz", "Point size:", 
+                             min = 0, max = 4, value = 1.25, step = 0.25), 
+              radioButtons("sc8a1psz", "Plot size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE), 
+              radioButtons("sc8a1fsz", "Font size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE) 
+            ), 
+            column( 
+              6, radioButtons("sc8a1asp", "Aspect ratio:", 
+                              choices = c("Square", "Fixed", "Free"), 
+                              selected = "Square", inline = TRUE), 
+              checkboxInput("sc8a1txt", "Show axis text", value = FALSE) 
+            ) 
+          ) 
+        ) 
+      )  # End of column (6 space) 
+    ),   # End of fluidRow (4 space) 
+    fluidRow( 
+      column( 
+        6, style="border-right: 2px solid black", h4("Cell information"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc8a1inp1", "Cell information:", 
+                           choices = sc8conf$UI, 
+                           selected = sc8def$meta1) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Cell information to colour cells by", 
+                     content = c("Select cell information to colour cells", 
+                                 "- Categorical covariates have a fixed colour palette", 
+                                 paste0("- Continuous covariates are coloured in a ",  
+                                        "Blue-Yellow-Red colour scheme, which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc8a1tog1", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc8a1tog1 % 2 == 1", 
+              radioButtons("sc8a1col1", "Colour (Continuous data):", 
+                           choices = c("White-Red","Blue-Yellow-Red","Yellow-Green-Purple"), 
+                           selected = "Blue-Yellow-Red"), 
+              radioButtons("sc8a1ord1", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Original", inline = TRUE), 
+              checkboxInput("sc8a1lab1", "Show cell info labels", value = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc8a1oup1.ui"))), 
+        downloadButton("sc8a1oup1.pdf", "Download PDF"), 
+        downloadButton("sc8a1oup1.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc8a1oup1.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc8a1oup1.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)), br(), 
+        actionButton("sc8a1tog9", "Toggle to show cell numbers / statistics"), 
+        conditionalPanel( 
+          condition = "input.sc8a1tog9 % 2 == 1", 
+          h4("Cell numbers / statistics"), 
+          radioButtons("sc8a1splt", "Split continuous cell info into:", 
+                       choices = c("Quartile", "Decile"), 
+                       selected = "Decile", inline = TRUE), 
+          dataTableOutput("sc8a1.dt") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, h4("Gene expression"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc8a1inp2", "Gene name:", choices=NULL) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Gene expression to colour cells by", 
+                     content = c("Select gene to colour cells by gene expression", 
+                                 paste0("- Gene expression are coloured in a ", 
+                                        "White-Red colour scheme which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc8a1tog2", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc8a1tog2 % 2 == 1", 
+              radioButtons("sc8a1col2", "Colour:", 
+                           choices = c("White-Red","Blue-Yellow-Red","Yellow-Green-Purple"), 
+                           selected = "White-Red"), 
+              radioButtons("sc8a1ord2", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Max-1st", inline = TRUE) 
+            ) 
+          ) 
+        ) , 
+        fluidRow(column(12, uiOutput("sc8a1oup2.ui"))), 
+        downloadButton("sc8a1oup2.pdf", "Download PDF"), 
+        downloadButton("sc8a1oup2.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc8a1oup2.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc8a1oup2.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  ),     # End of tab (2 space) 
+ 
+  ### Tab1.a2: cellInfo vs cellInfo on dimRed 
+  tabPanel( 
+    HTML("CellInfo vs CellInfo"), 
+    h4("Cell information vs cell information on dimension reduction"), 
+    "In this tab, users can visualise two cell informations side-by-side ", 
+    "on low-dimensional representions.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, h4("Dimension Reduction"), 
+        fluidRow( 
+          column( 
+            12, selectInput("sc8a2drX", "X-axis:", choices = sc8conf[dimred == TRUE]$UI, 
+                           selected = sc8def$dimred[1]), 
+            selectInput("sc8a2drY", "Y-axis:", choices = sc8conf[dimred == TRUE]$UI, 
+                        selected = sc8def$dimred[2])) 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        3, actionButton("sc8a2togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc8a2togL % 2 == 1", 
+          selectInput("sc8a2sub1", "Cell information to subset:", 
+                      choices = sc8conf[grp == TRUE]$UI, 
+                      selected = sc8def$grp1), 
+          uiOutput("sc8a2sub1.ui"), 
+          actionButton("sc8a2sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc8a2sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, actionButton("sc8a2tog0", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc8a2tog0 % 2 == 1", 
+          fluidRow( 
+            column( 
+              6, sliderInput("sc8a2siz", "Point size:", 
+                             min = 0, max = 4, value = 1.25, step = 0.25), 
+              radioButtons("sc8a2psz", "Plot size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE), 
+              radioButtons("sc8a2fsz", "Font size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE) 
+            ), 
+            column( 
+              6, radioButtons("sc8a2asp", "Aspect ratio:", 
+                              choices = c("Square", "Fixed", "Free"), 
+                              selected = "Square", inline = TRUE), 
+              checkboxInput("sc8a2txt", "Show axis text", value = FALSE) 
+            ) 
+          ) 
+        ) 
+      )  # End of column (6 space) 
+    ),   # End of fluidRow (4 space) 
+    fluidRow( 
+      column( 
+        6, style="border-right: 2px solid black", h4("Cell information 1"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc8a2inp1", "Cell information:", 
+                           choices = sc8conf$UI, 
+                           selected = sc8def$meta1) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Cell information to colour cells by", 
+                     content = c("Select cell information to colour cells", 
+                                 "- Categorical covariates have a fixed colour palette", 
+                                 paste0("- Continuous covariates are coloured in a ",  
+                                        "Blue-Yellow-Red colour scheme, which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc8a2tog1", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc8a2tog1 % 2 == 1", 
+              radioButtons("sc8a2col1", "Colour (Continuous data):", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "Blue-Yellow-Red"), 
+              radioButtons("sc8a2ord1", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Original", inline = TRUE), 
+              checkboxInput("sc8a2lab1", "Show cell info labels", value = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc8a2oup1.ui"))), 
+        downloadButton("sc8a2oup1.pdf", "Download PDF"), 
+        downloadButton("sc8a2oup1.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc8a2oup1.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc8a2oup1.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      ), # End of column (6 space) 
+      column( 
+        6, h4("Cell information 2"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc8a2inp2", "Cell information:", 
+                           choices = sc8conf$UI, 
+                           selected = sc8def$meta2) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Cell information to colour cells by", 
+                     content = c("Select cell information to colour cells", 
+                                 "- Categorical covariates have a fixed colour palette", 
+                                 paste0("- Continuous covariates are coloured in a ",  
+                                        "Blue-Yellow-Red colour scheme, which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc8a2tog2", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc8a2tog2 % 2 == 1", 
+              radioButtons("sc8a2col2", "Colour (Continuous data):", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "Blue-Yellow-Red"), 
+              radioButtons("sc8a2ord2", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Original", inline = TRUE), 
+              checkboxInput("sc8a2lab2", "Show cell info labels", value = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc8a2oup2.ui"))), 
+        downloadButton("sc8a2oup2.pdf", "Download PDF"), 
+        downloadButton("sc8a2oup2.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc8a2oup2.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc8a2oup2.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  ),     # End of tab (2 space) 
+   
+  ### Tab1.a3: geneExpr vs geneExpr on dimRed 
+  tabPanel( 
+    HTML("GeneExpr vs GeneExpr"), 
+    h4("Gene expression vs gene expression on dimension reduction"), 
+    "In this tab, users can visualise two gene expressions side-by-side ", 
+    "on low-dimensional representions.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, h4("Dimension Reduction"), 
+        fluidRow( 
+          column( 
+            12, selectInput("sc8a3drX", "X-axis:", choices = sc8conf[dimred == TRUE]$UI, 
+                           selected = sc8def$dimred[1]), 
+            selectInput("sc8a3drY", "Y-axis:", choices = sc8conf[dimred == TRUE]$UI, 
+                        selected = sc8def$dimred[2])) 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        3, actionButton("sc8a3togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc8a3togL % 2 == 1", 
+          selectInput("sc8a3sub1", "Cell information to subset:", 
+                      choices = sc8conf[grp == TRUE]$UI, 
+                      selected = sc8def$grp1), 
+          uiOutput("sc8a3sub1.ui"), 
+          actionButton("sc8a3sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc8a3sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ) 
+      ), # End of column (6 space) 
+      column( 
+        6, actionButton("sc8a3tog0", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc8a3tog0 % 2 == 1", 
+          fluidRow( 
+            column( 
+              6, sliderInput("sc8a3siz", "Point size:", 
+                             min = 0, max = 4, value = 1.25, step = 0.25), 
+              radioButtons("sc8a3psz", "Plot size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE), 
+              radioButtons("sc8a3fsz", "Font size:", 
+                           choices = c("Small", "Medium", "Large"), 
+                           selected = "Medium", inline = TRUE) 
+            ), 
+            column( 
+              6, radioButtons("sc8a3asp", "Aspect ratio:", 
+                              choices = c("Square", "Fixed", "Free"), 
+                              selected = "Square", inline = TRUE), 
+              checkboxInput("sc8a3txt", "Show axis text", value = FALSE) 
+            ) 
+          ) 
+        ) 
+      )  # End of column (6 space) 
+    ),   # End of fluidRow (4 space) 
+    fluidRow( 
+      column( 
+        6, style="border-right: 2px solid black", h4("Gene expression 1"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc8a3inp1", "Gene name:", choices=NULL) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Gene expression to colour cells by", 
+                     content = c("Select gene to colour cells by gene expression", 
+                                 paste0("- Gene expression are coloured in a ", 
+                                        "White-Red colour scheme which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc8a3tog1", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc8a3tog1 % 2 == 1", 
+              radioButtons("sc8a3col1", "Colour:", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "White-Red"), 
+              radioButtons("sc8a3ord1", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Max-1st", inline = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc8a3oup1.ui"))), 
+        downloadButton("sc8a3oup1.pdf", "Download PDF"), 
+        downloadButton("sc8a3oup1.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc8a3oup1.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc8a3oup1.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      ), # End of column (6 space) 
+      column( 
+        6, h4("Gene expression 2"), 
+        fluidRow( 
+          column( 
+            6, selectInput("sc8a3inp2", "Gene name:", choices=NULL) %>%  
+              helper(type = "inline", size = "m", fade = TRUE, 
+                     title = "Gene expression to colour cells by", 
+                     content = c("Select gene to colour cells by gene expression", 
+                                 paste0("- Gene expression are coloured in a ", 
+                                        "White-Red colour scheme which can be ", 
+                                        "changed in the plot controls"))) 
+          ), 
+          column( 
+            6, actionButton("sc8a3tog2", "Toggle plot controls"), 
+            conditionalPanel( 
+              condition = "input.sc8a3tog2 % 2 == 1", 
+              radioButtons("sc8a3col2", "Colour:", 
+                           choices = c("White-Red", "Blue-Yellow-Red", 
+                                       "Yellow-Green-Purple"), 
+                           selected = "White-Red"), 
+              radioButtons("sc8a3ord2", "Plot order:", 
+                           choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                           selected = "Max-1st", inline = TRUE) 
+            ) 
+          ) 
+        ), 
+        fluidRow(column(12, uiOutput("sc8a3oup2.ui"))), 
+        downloadButton("sc8a3oup2.pdf", "Download PDF"), 
+        downloadButton("sc8a3oup2.png", "Download PNG"), br(), 
+        div(style="display:inline-block", 
+            numericInput("sc8a3oup2.h", "PDF / PNG height:", width = "138px", 
+                         min = 4, max = 20, value = 6, step = 0.5)), 
+        div(style="display:inline-block", 
+            numericInput("sc8a3oup2.w", "PDF / PNG width:", width = "138px", 
+                         min = 4, max = 20, value = 8, step = 0.5)) 
+      )  # End of column (6 space) 
+    )    # End of fluidRow (4 space) 
+  ),     # End of tab (2 space) 
+ 
+ ### Tab1.b2: Gene coexpression plot 
+ tabPanel( 
+   HTML("Gene coexpression"), 
+   h4("Coexpression of two genes on reduced dimensions"), 
+   "In this tab, users can visualise the coexpression of two genes ", 
+   "on low-dimensional representions.", 
+   br(),br(), 
+   fluidRow( 
+     column( 
+       3, h4("Dimension Reduction"), 
+       fluidRow( 
+         column( 
+           12, selectInput("sc8b2drX", "X-axis:", choices = sc8conf[dimred == TRUE]$UI, 
+                           selected = sc8def$dimred[1]), 
+           selectInput("sc8b2drY", "Y-axis:", choices = sc8conf[dimred == TRUE]$UI, 
+                       selected = sc8def$dimred[2])) 
+       ) 
+     ), # End of column (6 space) 
+     column( 
+       3, actionButton("sc8b2togL", "Toggle to subset cells"), 
+       conditionalPanel( 
+         condition = "input.sc8b2togL % 2 == 1", 
+         selectInput("sc8b2sub1", "Cell information to subset:", 
+                     choices = sc8conf[grp == TRUE]$UI, 
+                    selected = sc8def$grp1), 
+         uiOutput("sc8b2sub1.ui"), 
+         actionButton("sc8b2sub1all", "Select all groups", class = "btn btn-primary"), 
+         actionButton("sc8b2sub1non", "Deselect all groups", class = "btn btn-primary") 
+       ) 
+     ), # End of column (6 space) 
+     column( 
+       6, actionButton("sc8b2tog0", "Toggle graphics controls"), 
+       conditionalPanel( 
+         condition = "input.sc8b2tog0 % 2 == 1", 
+         fluidRow( 
+           column( 
+             6, sliderInput("sc8b2siz", "Point size:", 
+                            min = 0, max = 4, value = 1.25, step = 0.25), 
+             radioButtons("sc8b2psz", "Plot size:", 
+                          choices = c("Small", "Medium", "Large"), 
+                          selected = "Medium", inline = TRUE), 
+             radioButtons("sc8b2fsz", "Font size:", 
+                          choices = c("Small", "Medium", "Large"), 
+                          selected = "Medium", inline = TRUE) 
+           ), 
+           column( 
+             6, radioButtons("sc8b2asp", "Aspect ratio:", 
+                             choices = c("Square", "Fixed", "Free"), 
+                             selected = "Square", inline = TRUE), 
+             checkboxInput("sc8b2txt", "Show axis text", value = FALSE) 
+           ) 
+         ) 
+       ) 
+     )  # End of column (6 space) 
+   ),   # End of fluidRow (4 space) 
+   fluidRow( 
+     column( 
+       3, style="border-right: 2px solid black", h4("Gene Expression"), 
+       selectInput("sc8b2inp1", "Gene 1:", choices=NULL) %>%  
+         helper(type = "inline", size = "m", fade = TRUE, 
+               title = "Gene expression to colour cells by", 
+               content = c("Select gene to colour cells by gene expression", 
+                          paste0("- Gene expression are coloured in a ", 
+                                 "White-Red colour scheme which can be ", 
+                                 "changed in the plot controls"))), 
+       selectInput("sc8b2inp2", "Gene 2:", choices=NULL) %>% 
+         helper(type = "inline", size = "m", fade = TRUE, 
+                title = "Gene expression to colour cells by", 
+                content = c("Select gene to colour cells by gene expression", 
+                            paste0("- Gene expression are coloured in a ", 
+                                   "White-Blue colour scheme which can be ", 
+                                   "changed in the plot controls"))), 
+       actionButton("sc8b2tog1", "Toggle plot controls"), 
+       conditionalPanel( 
+         condition = "input.sc8b2tog1 % 2 == 1", 
+         radioButtons("sc8b2col1", "Colour:", 
+                      choices = c("Red (Gene1); Blue (Gene2)", 
+                                  "Orange (Gene1); Blue (Gene2)", 
+                                  "Red (Gene1); Green (Gene2)", 
+                                  "Green (Gene1); Blue (Gene2)"), 
+                      selected = "Red (Gene1); Blue (Gene2)"), 
+         radioButtons("sc8b2ord1", "Plot order:", 
+                      choices = c("Max-1st", "Min-1st", "Original", "Random"), 
+                      selected = "Max-1st", inline = TRUE) 
+       ) 
+     ), # End of column (6 space) 
+     column( 
+       6, style="border-right: 2px solid black", 
+       uiOutput("sc8b2oup1.ui"), 
+       downloadButton("sc8b2oup1.pdf", "Download PDF"), 
+       downloadButton("sc8b2oup1.png", "Download PNG"), br(), 
+       div(style="display:inline-block", 
+           numericInput("sc8b2oup1.h", "PDF / PNG height:", width = "138px", 
+                        min = 4, max = 20, value = 8, step = 0.5)), 
+       div(style="display:inline-block", 
+           numericInput("sc8b2oup1.w", "PDF / PNG width:", width = "138px", 
+                        min = 4, max = 20, value = 10, step = 0.5)) 
+     ), # End of column (6 space) 
+     column( 
+       3, uiOutput("sc8b2oup2.ui"), 
+       downloadButton("sc8b2oup2.pdf", "Download PDF"), 
+       downloadButton("sc8b2oup2.png", "Download PNG"), 
+       br(), h4("Cell numbers"), 
+       dataTableOutput("sc8b2.dt") 
+     )  # End of column (6 space) 
+   )    # End of fluidRow (4 space) 
+ ),     # End of tab (2 space) 
+ 
+ ### Tab1.c1: violinplot / boxplot 
+ tabPanel( 
+    HTML("Violinplot / Boxplot"),  
+   h4("Cell information / gene expression violin plot / box plot"), 
+   "In this tab, users can visualise the gene expression or continuous cell information ",  
+   "(e.g. Number of UMIs / module score) across groups of cells (e.g. libary / clusters).", 
+   br(),br(), 
+   fluidRow( 
+     column( 
+       3, style="border-right: 2px solid black", 
+       selectInput("sc8c1inp1", "Cell information (X-axis):", 
+                   choices = sc8conf[grp == TRUE]$UI, 
+                   selected = sc8def$grp1) %>%  
+         helper(type = "inline", size = "m", fade = TRUE, 
+                title = "Cell information to group cells by",  
+                content = c("Select categorical cell information to group cells by",  
+                            "- Single cells are grouped by this categorical covariate",  
+                            "- Plotted as the X-axis of the violin plot / box plot")),  
+       selectInput("sc8c1inp2", "Cell Info / Gene name (Y-axis):", choices=NULL) %>%  
+         helper(type = "inline", size = "m", fade = TRUE, 
+                title = "Cell Info / Gene to plot", 
+                content = c("Select cell info / gene to plot on Y-axis", 
+                            "- Can be continuous cell information (e.g. nUMIs / scores)", 
+                            "- Can also be gene expression")), 
+       radioButtons("sc8c1typ", "Plot type:", 
+                    choices = c("violin", "boxplot"), 
+                    selected = "violin", inline = TRUE), 
+       checkboxInput("sc8c1pts", "Show data points", value = FALSE), 
+       actionButton("sc8c1togL", "Toggle to subset cells"), 
+       conditionalPanel( 
+         condition = "input.sc8c1togL % 2 == 1", 
+         selectInput("sc8c1sub1", "Cell information to subset:", 
+                     choices = sc8conf[grp == TRUE]$UI, 
+                     selected = sc8def$grp1), 
+         uiOutput("sc8c1sub1.ui"), 
+         actionButton("sc8c1sub1all", "Select all groups", class = "btn btn-primary"), 
+         actionButton("sc8c1sub1non", "Deselect all groups", class = "btn btn-primary") 
+       ), br(), br(), 
+       actionButton("sc8c1tog", "Toggle graphics controls"), 
+       conditionalPanel( 
+         condition = "input.sc8c1tog % 2 == 1", 
+         sliderInput("sc8c1siz", "Data point size:",  
+                     min = 0, max = 4, value = 1.25, step = 0.25),  
+         radioButtons("sc8c1psz", "Plot size:", 
+                      choices = c("Small", "Medium", "Large"), 
+                      selected = "Medium", inline = TRUE), 
+         radioButtons("sc8c1fsz", "Font size:", 
+                      choices = c("Small", "Medium", "Large"), 
+                      selected = "Medium", inline = TRUE)) 
+     ), # End of column (6 space) 
+     column(9, uiOutput("sc8c1oup.ui"),  
+            downloadButton("sc8c1oup.pdf", "Download PDF"),  
+            downloadButton("sc8c1oup.png", "Download PNG"), br(), 
+            div(style="display:inline-block", 
+                numericInput("sc8c1oup.h", "PDF / PNG height:", width = "138px", 
+                             min = 4, max = 20, value = 8, step = 0.5)), 
+            div(style="display:inline-block", 
+                numericInput("sc8c1oup.w", "PDF / PNG width:", width = "138px", 
+                             min = 4, max = 20, value = 10, step = 0.5)) 
+     )  # End of column (6 space) 
+   )    # End of fluidRow (4 space) 
+ ),     # End of tab (2 space) 
+ 
+### Tab1.c2: Proportion plot 
+tabPanel( 
+  HTML("Proportion plot"), 
+  h4("Proportion / cell numbers across different cell information"), 
+  "In this tab, users can visualise the composition of single cells based on one discrete ", 
+  "cell information across another discrete cell information. ",  
+  "Usage examples include the library or cellcycle composition across clusters.", 
+  br(),br(), 
+  fluidRow( 
+    column( 
+      3, style="border-right: 2px solid black", 
+      selectInput("sc8c2inp1", "Cell information to plot (X-axis):", 
+                  choices = sc8conf[grp == TRUE]$UI, 
+                  selected = sc8def$grp2) %>%  
+        helper(type = "inline", size = "m", fade = TRUE, 
+               title = "Cell information to plot cells by",  
+               content = c("Select categorical cell information to plot cells by", 
+                           "- Plotted as the X-axis of the proportion plot")), 
+      selectInput("sc8c2inp2", "Cell information to group / colour by:", 
+                  choices = sc8conf[grp == TRUE]$UI, 
+                  selected = sc8def$grp1) %>%  
+        helper(type = "inline", size = "m", fade = TRUE, 
+               title = "Cell information to group / colour cells by", 
+               content = c("Select categorical cell information to group / colour cells by", 
+                           "- Proportion / cell numbers are shown in different colours")), 
+      radioButtons("sc8c2typ", "Plot value:", 
+                   choices = c("Proportion", "CellNumbers"), 
+                   selected = "Proportion", inline = TRUE), 
+      checkboxInput("sc8c2flp", "Flip X/Y", value = FALSE), 
+      actionButton("sc8c2togL", "Toggle to subset cells"), 
+      conditionalPanel( 
+        condition = "input.sc8c2togL % 2 == 1", 
+        selectInput("sc8c2sub1", "Cell information to subset:", 
+                    choices = sc8conf[grp == TRUE]$UI, 
+                    selected = sc8def$grp1), 
+        uiOutput("sc8c2sub1.ui"), 
+        actionButton("sc8c2sub1all", "Select all groups", class = "btn btn-primary"), 
+        actionButton("sc8c2sub1non", "Deselect all groups", class = "btn btn-primary") 
+      ), br(), br(), 
+      actionButton("sc8c2tog", "Toggle graphics controls"), 
+      conditionalPanel( 
+        condition = "input.sc8c2tog % 2 == 1", 
+        radioButtons("sc8c2psz", "Plot size:", 
+                     choices = c("Small", "Medium", "Large"), 
+                     selected = "Medium", inline = TRUE), 
+        radioButtons("sc8c2fsz", "Font size:", 
+                     choices = c("Small", "Medium", "Large"), 
+                     selected = "Medium", inline = TRUE)) 
+    ), # End of column (6 space) 
+    column(9, uiOutput("sc8c2oup.ui"),  
+           downloadButton("sc8c2oup.pdf", "Download PDF"),  
+           downloadButton("sc8c2oup.png", "Download PNG"), br(), 
+           div(style="display:inline-block", 
+               numericInput("sc8c2oup.h", "PDF / PNG height:", width = "138px", 
+                            min = 4, max = 20, value = 8, step = 0.5)), 
+           div(style="display:inline-block", 
+               numericInput("sc8c2oup.w", "PDF / PNG width:", width = "138px", 
+                            min = 4, max = 20, value = 10, step = 0.5)) 
+    )  # End of column (6 space) 
+  )    # End of fluidRow (4 space) 
+),     # End of tab (2 space) 
+ 
+  ### Tab1.d1: Multiple gene expr 
+  tabPanel( 
+    HTML("Bubbleplot / Heatmap"), 
+    h4("Gene expression bubbleplot / heatmap"), 
+    "In this tab, users can visualise the gene expression patterns of ", 
+    "multiple genes grouped by categorical cell information (e.g. library / cluster).", br(), 
+    "The normalised expression are averaged, log-transformed and then plotted.", 
+    br(),br(), 
+    fluidRow( 
+      column( 
+        3, style="border-right: 2px solid black", 
+        textAreaInput("sc8d1inp", HTML("List of gene names <br /> 
+                                          (Max 50 genes, separated <br /> 
+                                           by , or ; or newline):"), 
+                      height = "200px", 
+                      value = paste0(sc8def$genes, collapse = ", ")) %>% 
+          helper(type = "inline", size = "m", fade = TRUE, 
+                 title = "List of genes to plot on bubbleplot / heatmap", 
+                 content = c("Input genes to plot", 
+                             "- Maximum 50 genes (due to ploting space limitations)", 
+                             "- Genes should be separated by comma, semicolon or newline")), 
+        selectInput("sc8d1grp", "Group by:", 
+                    choices = sc8conf[grp == TRUE]$UI, 
+                    selected = sc8conf[grp == TRUE]$UI[1]) %>% 
+          helper(type = "inline", size = "m", fade = TRUE, 
+                 title = "Cell information to group cells by", 
+                 content = c("Select categorical cell information to group cells by", 
+                             "- Single cells are grouped by this categorical covariate", 
+                             "- Plotted as the X-axis of the bubbleplot / heatmap")), 
+        radioButtons("sc8d1plt", "Plot type:", 
+                     choices = c("Bubbleplot", "Heatmap"), 
+                     selected = "Bubbleplot", inline = TRUE), 
+        checkboxInput("sc8d1scl", "Scale gene expression", value = TRUE), 
+        checkboxInput("sc8d1row", "Cluster rows (genes)", value = TRUE), 
+        checkboxInput("sc8d1col", "Cluster columns (samples)", value = FALSE), 
+        br(), 
+        actionButton("sc8d1togL", "Toggle to subset cells"), 
+        conditionalPanel( 
+          condition = "input.sc8d1togL % 2 == 1", 
+          selectInput("sc8d1sub1", "Cell information to subset:", 
+                      choices = sc8conf[grp == TRUE]$UI, 
+                      selected = sc8def$grp1), 
+          uiOutput("sc8d1sub1.ui"), 
+          actionButton("sc8d1sub1all", "Select all groups", class = "btn btn-primary"), 
+          actionButton("sc8d1sub1non", "Deselect all groups", class = "btn btn-primary") 
+        ), br(), br(), 
+        actionButton("sc8d1tog", "Toggle graphics controls"), 
+        conditionalPanel( 
+          condition = "input.sc8d1tog % 2 == 1", 
+          radioButtons("sc8d1cols", "Colour scheme:", 
+                       choices = c("White-Red", "Blue-Yellow-Red", 
+                                   "Yellow-Green-Purple"), 
+                       selected = "Blue-Yellow-Red"), 
+          radioButtons("sc8d1psz", "Plot size:", 
+                       choices = c("Small", "Medium", "Large"), 
+                       selected = "Medium", inline = TRUE), 
+          radioButtons("sc8d1fsz", "Font size:", 
+                       choices = c("Small", "Medium", "Large"), 
+                       selected = "Medium", inline = TRUE)) 
+      ), # End of column (6 space) 
+      column(9, h4(htmlOutput("sc8d1oupTxt")), 
+             uiOutput("sc8d1oup.ui"), 
+             downloadButton("sc8d1oup.pdf", "Download PDF"), 
+             downloadButton("sc8d1oup.png", "Download PNG"), br(), 
+             div(style="display:inline-block", 
+                 numericInput("sc8d1oup.h", "PDF / PNG height:", width = "138px", 
+                              min = 4, max = 20, value = 10, step = 0.5)), 
+             div(style="display:inline-block", 
+                 numericInput("sc8d1oup.w", "PDF / PNG width:", width = "138px", 
                               min = 4, max = 20, value = 10, step = 0.5)) 
       )  # End of column (6 space) 
     )    # End of fluidRow (4 space) 
